@@ -2,6 +2,8 @@ import 'package:ds_cart/widgets/custom_elevated_button.dart';
 import 'package:ds_cart/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
+import 'login_screen.dart';
+
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
@@ -39,6 +41,11 @@ class RegisterScreen extends StatelessWidget {
                 controller: _passwordController, hintText: "Create Password"),
             CustomElevatedButton(
               label: "Register",
+              onPressed: () {
+                // Login Call here
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => LoginScreen()));
+              },
             ),
             TextButton(
                 onPressed: () {},
