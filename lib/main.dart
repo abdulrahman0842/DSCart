@@ -1,8 +1,17 @@
+import 'package:ds_cart/provider/auth_provider.dart';
+import 'package:ds_cart/service/auth_service.dart';
+import 'package:ds_cart/service/mock_auth_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'view/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  const bool isMock = kDebugMode;
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+        create: (_) => AuthProvider(isMock ? MockAuthService() : AuthService()))
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

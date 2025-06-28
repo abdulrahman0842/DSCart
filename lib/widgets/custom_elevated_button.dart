@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     super.key,
-    required this.label,
+    required this.child,
     required this.onPressed,
   });
-  final String label;
+  final Widget child;
   final Function() onPressed;
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,7 @@ class CustomElevatedButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12))),
           onPressed: onPressed,
-          child: Text(
-            label,
-            style:
-                TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),
-          )),
+          child: child),
     );
   }
 }

@@ -1,6 +1,8 @@
+import 'package:ds_cart/provider/auth_provider.dart';
 import 'package:ds_cart/widgets/custom_elevated_button.dart';
 import 'package:ds_cart/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'login_screen.dart';
 
@@ -44,14 +46,24 @@ class RegisterScreen extends StatelessWidget {
                 controller: _emailController, hintText: "Enter Email"),
             CustomTextField(
                 controller: _passwordController, hintText: "Create Password"),
-            CustomElevatedButton(
-              label: "Register",
-              onPressed: () {
-                // Login Call here
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => LoginScreen()));
-              },
-            ),
+            Consumer<AuthProvider>(builder: (context, provider, _) {
+              return CustomElevatedButton(
+                child: provider.isLoading
+                    ? CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                    : Text(
+                        "Register",
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.05),
+                      ),
+                onPressed: () {
+                  context
+                      .read<AuthProvider>()
+                      .register(context, "name", "email", "password");
+                },
+              );
+            }),
             SizedBox(
               width: MediaQuery.of(context).size.width,
               child: TextButton(
