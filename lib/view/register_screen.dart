@@ -19,14 +19,19 @@ class RegisterScreen extends StatelessWidget {
         child: Column(
           spacing: 8,
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "DS Cart",
+              textAlign: TextAlign.left,
+              "Register Now",
               style: TextStyle(
-                  fontSize: 60,
-                  fontStyle: FontStyle.italic,
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).primaryColor),
+            ),
+            Text(
+              "Sign up with your email and passsword to continue",
+              style: TextStyle(fontSize: 20, color: Colors.grey),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.05,
@@ -47,9 +52,15 @@ class RegisterScreen extends StatelessWidget {
                     context, MaterialPageRoute(builder: (_) => LoginScreen()));
               },
             ),
-            TextButton(
-                onPressed: () {},
-                child: Text("Already Have an Account?\t Login Here"))
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => LoginScreen()));
+                  },
+                  child: Text("Already Have an Account?\t Login Here")),
+            )
           ],
         ),
       ),
