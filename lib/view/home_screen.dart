@@ -1,5 +1,7 @@
-import 'package:ds_cart/widgets/main_choice_card.dart';
+import 'package:ds_cart/core/widgets/main_choice_card.dart';
 import 'package:flutter/material.dart';
+
+import '../features/food_store/view/food_home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,13 +30,10 @@ class HomeScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),
                 MainChoiceCard(
-                  image: "food.jpg",
-                  title: "DS Kitchens",
-                  subTitle: "Enjoy delicious Cuisines",
-                  nextScreen: Scaffold(
-                    body: Center(child: Text("DS Kitches")),
-                  ),
-                ),
+                    image: "food.jpg",
+                    title: "DS Kitchens",
+                    subTitle: "Enjoy delicious Cuisines",
+                    nextScreen: FoodHomeScreen()),
                 MainChoiceCard(
                     image: "clothing.jpg",
                     title: "DS Fashions",

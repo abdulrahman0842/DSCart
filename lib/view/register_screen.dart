@@ -1,6 +1,6 @@
 import 'package:ds_cart/provider/auth_provider.dart';
-import 'package:ds_cart/widgets/custom_elevated_button.dart';
-import 'package:ds_cart/widgets/custom_text_field.dart';
+import 'package:ds_cart/core/widgets/custom_elevated_button.dart';
+import 'package:ds_cart/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
