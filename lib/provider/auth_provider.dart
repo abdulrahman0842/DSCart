@@ -39,4 +39,34 @@ class AuthProvider with ChangeNotifier {
           .showSnackBar(SnackBar(content: Text("Something went wrong!")));
     }
   }
+
+
+  Future<void> login(
+      BuildContext context, String email, String password) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final token = await _authService.login(email, password);
+
+      isLoading = false;
+      notifyListeners();
+
+      if (token != null) {
+        //Local Storage Methods
+
+        log(token);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Failed to Login Try Again")));
+      }
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Something went wrong!")));
+    }
+  }
 }

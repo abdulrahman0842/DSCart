@@ -53,14 +53,16 @@ class RegisterScreen extends StatelessWidget {
                         color: Colors.white,
                       )
                     : Text(
-                        "Register",
+                        "Sign up",
                         style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.05),
                       ),
                 onPressed: () {
-                  context
-                      .read<AuthProvider>()
-                      .register(context, "name", "email", "password");
+                  context.read<AuthProvider>().register(
+                      context,
+                      _nameController.text.trim(),
+                      _emailController.text.trim(),
+                      _passwordController.text.trim());
                 },
               );
             }),
