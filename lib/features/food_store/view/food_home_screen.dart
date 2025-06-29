@@ -1,7 +1,8 @@
-import 'package:ds_cart/core/widgets/custom_text_field.dart';
 import 'package:ds_cart/features/food_store/provider/food_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'food_detail_screen.dart';
 
 class FoodHomeScreen extends StatefulWidget {
   const FoodHomeScreen({super.key});
@@ -11,8 +12,6 @@ class FoodHomeScreen extends StatefulWidget {
 }
 
 class _FoodHomeScreenState extends State<FoodHomeScreen> {
-  final _searchController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -45,16 +44,25 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
-                width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: provider.foods.length,
                     itemBuilder: (context, index) {
                       final item = provider.foods[index];
-                      return ListTile(
-                          title: Text(item.name),
-                          subtitle: Text(item.price.toString()),
-                          leading: Image.asset(item.imageUrl));
+                      return Card(
+                        child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => FoodDetailScreen(
+                                            foodId: item.id,
+                                          )));
+                            },
+                            title: Text(item.name),
+                            subtitle: Text(item.price.toString()),
+                            leading: Image.asset(item.imageUrl)),
+                      );
                     }),
               ),
             ],

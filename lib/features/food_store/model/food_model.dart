@@ -1,4 +1,3 @@
-
 class FoodModel {
   List<Food>? foods;
 
@@ -20,13 +19,17 @@ class Food {
   String category;
   double price;
   String imageUrl;
+  String? description;
+  String? ingredients;
 
   Food(
       {required this.id,
       required this.name,
       required this.category,
       required this.imageUrl,
-      required this.price});
+      required this.price,
+      this.description,
+      this.ingredients});
 
   factory Food.fromJson(Map<String, dynamic> json) {
     return Food(
@@ -34,6 +37,8 @@ class Food {
         name: json["name"],
         category: json["category"],
         imageUrl: json["imageURL"],
-        price: (json["price"] as num).toDouble());
+        price: (json["price"] as num).toDouble(),
+        description: json["description"],
+        ingredients: json["ingredients"]);
   }
 }

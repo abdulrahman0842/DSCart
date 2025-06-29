@@ -7,7 +7,6 @@ import 'package:ds_cart/service/mock_auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'view/splash_screen.dart';
 
 void main() {
   const bool isMock = kDebugMode;
