@@ -1,0 +1,26 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:ds_cart/features/food_store/interface/i_food_product_service.dart';
+import 'package:ds_cart/features/food_store/model/food_model.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../core/api_constants.dart';
+
+class FoodProductService implements IFoodProductService {
+  @override
+  Future<List<Food>> getAllFoodItems() async {
+    try {
+      final response = await http.get(Uri.parse(ApiConstants.getAllFoodItems));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final FoodModel foodModel = FoodModel.fromJson(data);
+        return foodModel.foods ?? [];
+      }
+      return [];
+    } catch (e) {
+      log('Exception at getAllFoodItems() : ${e.toString()}');
+      return [];
+    }
+  }
+}
