@@ -11,12 +11,35 @@ class FoodProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+
+  // Fetch all food items
   Future<void> getAllFoods() async {
     _isLoading = true;
     notifyListeners();
 
     foods = await _foodProductService.getAllFoodItems();
+    _isLoading = false;
+    notifyListeners();
+  }
 
+
+  // Fetch food items by category
+  Future<void> getFoodByCategory(String category) async {
+    _isLoading = true;
+    notifyListeners();
+
+    foods = await _foodProductService.getFoodItemsByCategory(category);
+    _isLoading = false;
+    notifyListeners();
+  }
+
+
+  // Fetch food items by id
+  Future<void> getFoodById(String id) async {
+    _isLoading = true;
+    notifyListeners();
+
+    foods = await _foodProductService.getFoodItemsById(id);
     _isLoading = false;
     notifyListeners();
   }
