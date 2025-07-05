@@ -6,13 +6,14 @@ import '../core/api_constants.dart';
 
 class AuthService implements IAuthService {
   @override
-  Future<String?> register(String name, String email, String password) async {
+  Future<String?> register(String name, String email, String password,String address) async {
     try {
       final response =
           await http.post(Uri.parse(ApiConstants.registerUrl), body: {
         "name": name,
         "email": email,
-        "password": password
+        "password": password,
+        "addess":address
       }, headers: {
         "Content-Type": "application/json",
       });

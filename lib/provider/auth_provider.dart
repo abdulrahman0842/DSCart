@@ -12,12 +12,12 @@ class AuthProvider with ChangeNotifier {
   bool isLoading = false;
 
   Future<void> register(
-      BuildContext context, String name, String email, String password) async {
+      BuildContext context, String name, String email, String password,String address) async {
     try {
       isLoading = true;
       notifyListeners();
 
-      final token = await _authService.register(name, email, password);
+      final token = await _authService.register(name, email, password,address);
 
       isLoading = false;
       notifyListeners();

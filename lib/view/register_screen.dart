@@ -12,6 +12,7 @@ class RegisterScreen extends StatelessWidget {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,8 @@ class RegisterScreen extends StatelessWidget {
                 controller: _emailController, hintText: "Enter Email"),
             CustomTextField(
                 controller: _passwordController, hintText: "Create Password"),
+            CustomTextField(
+                controller: _addressController, hintText: "Enter your address"),
             Consumer<AuthProvider>(builder: (context, provider, _) {
               return CustomElevatedButton(
                 child: provider.isLoading
@@ -62,7 +65,8 @@ class RegisterScreen extends StatelessWidget {
                       context,
                       _nameController.text.trim(),
                       _emailController.text.trim(),
-                      _passwordController.text.trim());
+                      _passwordController.text.trim(),
+                      _addressController.text.trim());
                 },
               );
             }),
