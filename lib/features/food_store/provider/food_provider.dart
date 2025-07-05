@@ -7,39 +7,41 @@ class FoodProvider with ChangeNotifier {
 
   FoodProvider(this._foodProductService);
 
-  List<Food> foods = [];
+  List<Food> _foods = [];
+  List<Food> get foods => _foods;
+  List<Food> _filteredFoods = [];
+  List<Food> get filteredFoods => _filteredFoods;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-
 
   // Fetch all food items
   Future<void> getAllFoods() async {
     _isLoading = true;
     notifyListeners();
 
-    foods = await _foodProductService.getAllFoodItems();
+    _foods = await _foodProductService.getAllFoodItems();
     _isLoading = false;
     notifyListeners();
   }
-
 
   // Fetch food items by category
   Future<void> getFoodByCategory(String category) async {
+    _filteredFoods.clear();
     _isLoading = true;
     notifyListeners();
 
-    foods = await _foodProductService.getFoodItemsByCategory(category);
+    _filteredFoods = await _foodProductService.getFoodItemsByCategory(category);
     _isLoading = false;
     notifyListeners();
   }
 
-
   // Fetch food items by id
   Future<void> getFoodById(String id) async {
+    _filteredFoods.clear();
     _isLoading = true;
     notifyListeners();
 
-    foods = await _foodProductService.getFoodItemsById(id);
+    _filteredFoods = await _foodProductService.getFoodItemsById(id);
     _isLoading = false;
     notifyListeners();
   }

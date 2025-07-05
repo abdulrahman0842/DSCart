@@ -1,3 +1,7 @@
+import 'package:hive/hive.dart';
+
+part 'food_model.g.dart';
+
 class FoodModel {
   List<Food>? foods;
 
@@ -13,13 +17,22 @@ class FoodModel {
   }
 }
 
-class Food {
+
+@HiveType(typeId: 0)
+class Food extends HiveObject{
+  @HiveField(0)
   String id;
+  @HiveField(1)
   String name;
+  @HiveField(2)
   String category;
+  @HiveField(3)
   double price;
+  @HiveField(4)
   String imageUrl;
+  @HiveField(5)
   String? description;
+  @HiveField(6)
   String? ingredients;
 
   Food(
