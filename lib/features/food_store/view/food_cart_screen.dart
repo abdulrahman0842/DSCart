@@ -2,6 +2,8 @@ import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'food_order_screen.dart';
+
 class FoodCartScreen extends StatefulWidget {
   const FoodCartScreen({super.key});
 
@@ -35,7 +37,17 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
                 return Text("Cart Total\n${provider.cartTotal}");
               }),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => FoodOrderScreen(
+                                foodItems:
+                                    context.read<CartProvider>().cartItems,
+                                totalAmount:
+                                    context.read<CartProvider>().cartTotal,
+                              )));
+                },
                 icon: Icon(Icons.shopping_cart),
                 label: Text("Order Now"),
                 style: ElevatedButton.styleFrom(

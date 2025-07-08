@@ -1,5 +1,8 @@
 import 'package:ds_cart/features/food_store/model/food_model.dart';
 import 'package:ds_cart/features/food_store/provider/food_provider.dart';
+import 'package:ds_cart/features/food_store/provider/order_provider.dart';
+import 'package:ds_cart/features/food_store/service/food_order_service.dart';
+import 'package:ds_cart/features/food_store/service/mock_food_order_service.dart';
 import 'package:ds_cart/features/food_store/service/mock_food_product_service.dart';
 import 'package:ds_cart/provider/auth_provider.dart';
 import 'package:ds_cart/service/auth_service.dart';
@@ -28,6 +31,10 @@ void main() async {
         create: (_) => FoodProvider(MockFoodProductService())),
     ChangeNotifierProvider(
       create: (_) => CartProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) =>
+          OrderProvider(isMock ? MockFoodOrderService() : FoodOrderService()),
     )
   ], child: const MyApp()));
 }
