@@ -38,6 +38,12 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
               }),
               ElevatedButton.icon(
                 onPressed: () {
+                  if (context.read<CartProvider>().cartItems.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            "No items in Cart, add items before Ordering")));
+                    return;
+                  }
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -86,7 +92,7 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
                 );
               });
         }
-        return Center(child: Text("NO Items in Cart"));
+        return Center(child: Text("Cart is empty add some items!"));
       }),
     );
   }

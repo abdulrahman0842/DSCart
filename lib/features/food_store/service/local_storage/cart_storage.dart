@@ -23,4 +23,9 @@ class CartStorage {
     int itemIndex = cartItems.indexWhere((item) => item.id == id);
     cartBox.deleteAt(itemIndex);
   }
+
+  void emptyCart() {
+    Box<Food> cartBox = Hive.box("foodCartBox");
+    cartBox.clear();
+  }
 }

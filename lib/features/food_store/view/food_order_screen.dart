@@ -2,6 +2,7 @@ import 'package:ds_cart/core/widgets/address_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/food_model.dart';
+import '../provider/cart_provider.dart';
 import '../provider/order_provider.dart';
 
 class FoodOrderScreen extends StatefulWidget {
@@ -119,8 +120,10 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Order placed successfully")),
                     );
-                    await Future.delayed(Duration(seconds: 2));
-                    Navigator.pop(context);
+                    await Future.delayed(Duration(seconds: 2), () {
+                      context.read<CartProvider>().emptyCart();
+                      Navigator.pop(context);
+                    });
                   }
                 },
                 child: const Text("Place Order"),

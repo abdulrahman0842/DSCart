@@ -38,7 +38,6 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  
   void removeFromCart(BuildContext context, String id, double price) {
     _isLoading = true;
     notifyListeners();
@@ -61,8 +60,7 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-
-void getCartItems(BuildContext context) {
+  void getCartItems(BuildContext context) {
     _isLoading = true;
     notifyListeners();
 
@@ -78,6 +76,11 @@ void getCartItems(BuildContext context) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Unable to Fetch Cart items!")));
     }
+  }
+
+  void emptyCart() {
+    _cartStorage.emptyCart();
+    notifyListeners();
   }
 
   void calculateCartTotal() {
