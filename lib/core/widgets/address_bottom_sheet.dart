@@ -6,7 +6,7 @@ import '../../service/local_storage/auth_storage.dart';
 
 class AddressBottomSheet {
   static void show(BuildContext context) {
-    final _addressController = TextEditingController();
+    final addressController = TextEditingController();
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -23,7 +23,7 @@ class AddressBottomSheet {
                   Text("Enter your address", style: TextStyle(fontSize: 18)),
                   SizedBox(height: 12),
                   TextField(
-                    controller: _addressController,
+                    controller: addressController,
                     decoration: InputDecoration(
                       labelText: "Address",
                       border: OutlineInputBorder(),
@@ -32,10 +32,10 @@ class AddressBottomSheet {
                   SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      final entered = _addressController.text.trim();
+                      final entered = addressController.text.trim();
                       if (entered.isNotEmpty) {
-                        final _authStorage = AuthStorage();
-                        _authStorage.updateUserAddress(entered);
+                        final authStorage = AuthStorage();
+                        authStorage.updateUserAddress(entered);
                         // Reload address in viewmodel
                         context.read<OrderProvider>().getUserAddress();
                         Navigator.pop(context);

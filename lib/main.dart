@@ -9,7 +9,6 @@ import 'package:ds_cart/service/auth_service.dart';
 import 'package:ds_cart/service/mock_auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'features/food_store/provider/cart_provider.dart';

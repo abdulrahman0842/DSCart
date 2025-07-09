@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ds_cart/features/food_store/interface/I_food_order_service.dart';
+import 'package:ds_cart/features/food_store/interface/i_food_order_service.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/api_constants.dart';
