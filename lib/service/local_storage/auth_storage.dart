@@ -4,8 +4,12 @@ class AuthStorage {
   Future<void> storeUserData(String name, String address) async {
     final pref = await SharedPreferences.getInstance();
     pref.setString("UserName", name);
-   pref.setString("UserAddress", address);
-   
+    pref.setString("UserAddress", address);
+  }
+
+  Future<void> storeToken(String token) async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setString("token", token);
   }
 
   Future<String?> getUserAddress() async {
@@ -13,8 +17,7 @@ class AuthStorage {
     return pref.getString("UserAddress");
   }
 
-
-  Future<void> updateUserAddress(String address)async{
+  Future<void> updateUserAddress(String address) async {
     final pref = await SharedPreferences.getInstance();
     pref.setString("UserAddress", address);
   }

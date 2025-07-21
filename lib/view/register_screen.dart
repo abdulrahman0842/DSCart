@@ -50,25 +50,23 @@ class RegisterScreen extends StatelessWidget {
             CustomTextField(
                 controller: _addressController, hintText: "Enter your address"),
             Consumer<AuthProvider>(builder: (context, provider, _) {
-              return CustomElevatedButton(
-                child: provider.isLoading
-                    ? CircularProgressIndicator(
-                        color: Colors.white,
-                      )
-                    : Text(
+              return provider.isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : CustomElevatedButton(
+                      child: Text(
                         "Sign up",
                         style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.05),
                       ),
-                onPressed: () {
-                  context.read<AuthProvider>().register(
-                      context,
-                      _nameController.text.trim(),
-                      _emailController.text.trim(),
-                      _passwordController.text.trim(),
-                      _addressController.text.trim());
-                },
-              );
+                      onPressed: () {
+                        context.read<AuthProvider>().register(
+                            context,
+                            _nameController.text.trim(),
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                            _addressController.text.trim());
+                      },
+                    );
             }),
             SizedBox(
               width: MediaQuery.of(context).size.width,

@@ -4,27 +4,30 @@ import 'package:ds_cart/core/interface/i_auth_service.dart';
 import 'package:flutter/material.dart';
 
 import '../view/home_screen.dart';
+import '../service/local_storage/auth_storage.dart';
 
 class AuthProvider with ChangeNotifier {
   final IAuthService _authService;
   AuthProvider(this._authService);
 
   bool isLoading = false;
+  final _authStorage = AuthStorage();
 
-  Future<void> register(
-      BuildContext context, String name, String email, String password,String address) async {
+  Future<void> register(BuildContext context, String name, String email,
+      String password, String address) async {
     try {
       isLoading = true;
       notifyListeners();
 
-      final token = await _authService.register(name, email, password,address);
+      final token = await _authService.register(name, email, password, address);
 
       isLoading = false;
       notifyListeners();
 
       if (token != null) {
         //Local Storage Methods
-
+        _authStorage.storeToken(token);
+        _authStorage.storeUserData(name, address);
         log(token);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
@@ -40,7 +43,6 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-
   Future<void> login(
       BuildContext context, String email, String password) async {
     try {
@@ -54,13 +56,13 @@ class AuthProvider with ChangeNotifier {
 
       if (token != null) {
         //Local Storage Methods
-
+        _authStorage.storeToken(token);
         log(token);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Failed to Login Try Again")));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Failed to Login Try Again")));
       }
     } catch (e) {
       isLoading = false;
