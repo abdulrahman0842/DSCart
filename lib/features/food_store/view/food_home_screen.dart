@@ -2,6 +2,7 @@ import 'package:ds_cart/features/food_store/core/widgets/category_card_widget.da
 import 'package:ds_cart/features/food_store/core/widgets/explore_item_card_widget.dart';
 import 'package:ds_cart/features/food_store/core/widgets/special_item_card.dart';
 import 'package:ds_cart/features/food_store/provider/food_provider.dart';
+import 'package:ds_cart/features/food_store/view/food_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/categories.dart';
@@ -67,6 +68,18 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
                       onPressed: () {},
                       icon: Icon(
                         Icons.notifications_none,
+                        size: 28,
+                        weight: 18,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (contetx) => FoodCartScreen()));
+                      },
+                      icon: Icon(
+                        Icons.shopping_cart_outlined,
                         size: 28,
                         weight: 18,
                       )),

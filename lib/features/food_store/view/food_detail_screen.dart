@@ -1,5 +1,6 @@
 import 'package:ds_cart/features/food_store/model/food_model.dart';
 import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
+import 'package:ds_cart/features/food_store/view/food_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,6 @@ class FoodDetailScreen extends StatefulWidget {
 }
 
 class _FoodDetailScreenState extends State<FoodDetailScreen> {
-  late Food fooItem;
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.food.name),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: const Color.fromARGB(255, 247, 225, 196),
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -118,30 +118,70 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
         builder: (context, provider, _) {
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  provider.isInCart(widget.food)
-                      ? context.read<CartProvider>().removeFromCart(
-                          context, widget.food.id, widget.food.price)
-                      : context
-                          .read<CartProvider>()
-                          .addToCart(context, widget.food);
-                },
-                icon: Icon(Icons.shopping_cart),
-                label: provider.isInCart(widget.food)
-                    ? Text("remove from cart")
-                    : Text("Add to Cart"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepOrange,
-                  foregroundColor: Colors.white,
-                  textStyle: const TextStyle(fontSize: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  height: 50,
+                  child: ElevatedButton.icon(
+                    onPressed: () async {
+                      if (provider.isInCart(widget.food)) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FoodOrderScreen(
+                                    foodItems: provider.cartItems,
+                                    totalAmount: provider.cartTotal)));
+                      } else {
+                        await provider.addToCart(context, widget.food);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FoodOrderScreen(
+                                    foodItems: provider.cartItems,
+                                    totalAmount: provider.cartTotal)));
+                      }
+                    },
+                    icon: Icon(Icons.shopping_cart_checkout),
+                    label: Text("Order Now"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 247, 225, 196),
+                      foregroundColor: Colors.black,
+                      textStyle: const TextStyle(fontSize: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(
+                  height: 50,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      provider.isInCart(widget.food)
+                          ? context.read<CartProvider>().removeFromCart(
+                              context, widget.food.id, widget.food.price)
+                          : context
+                              .read<CartProvider>()
+                              .addToCart(context, widget.food);
+                    },
+                    icon: provider.isInCart(widget.food)
+                        ? Icon(Icons.remove_shopping_cart_outlined)
+                        : Icon(Icons.add_shopping_cart_outlined),
+                    label: provider.isInCart(widget.food)
+                        ? Text("remove from cart")
+                        : Text("Add to Cart"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 247, 225, 196),
+                      foregroundColor: Colors.black,
+                      textStyle: const TextStyle(fontSize: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         },
