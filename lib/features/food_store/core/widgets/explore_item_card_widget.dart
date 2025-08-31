@@ -1,6 +1,9 @@
 import 'package:ds_cart/features/food_store/model/food_model.dart';
 import 'package:ds_cart/features/food_store/view/food_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/cart_provider.dart';
 
 class ExploreItemCardWidget extends StatelessWidget {
   const ExploreItemCardWidget({
@@ -84,13 +87,24 @@ class ExploreItemCardWidget extends StatelessWidget {
                         fontSize: 14,
                       ),
                     ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.favorite_border_sharp,
-                          color: Colors.red,
-                          size: 30,
-                        ))
+                    Consumer<CartProvider>(
+                      builder: (BuildContext context, provider, Widget? child) {
+                        return IconButton(
+                            onPressed: () {
+                              provider.isInCart(foodItem)
+                                  ? provider.removeFromCart(
+                                      context, foodItem.id, foodItem.price)
+                                  : provider.addToCart(context, foodItem);
+                            },
+                            icon: Icon(
+                              provider.isInCart(foodItem)
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_sharp,
+                              color: Colors.red,
+                              size: 30,
+                            ));
+                      },
+                    )
                   ],
                 ),
               )
