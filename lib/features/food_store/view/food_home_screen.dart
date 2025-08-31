@@ -112,7 +112,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
               Text("Explore", style: Theme.of(context).textTheme.titleLarge),
               Consumer<FoodProvider>(builder: (context, provider, _) {
                 if (provider.isLoading) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }
                 var foodItems = provider.foods;
                 return ListView.builder(

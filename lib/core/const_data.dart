@@ -3,7 +3,7 @@ const allFoodSampleData = {
     {
       "_id": "685aeb765c633b0bc6fa335a1",
       "name": "Caffe Mocha",
-      "category": "beverage",
+      "category": "Drinks",
       "price": 300,
       "imageURL": "assets/images/coffee.jpg",
       "__v": 0

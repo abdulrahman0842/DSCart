@@ -1,3 +1,4 @@
+import 'package:ds_cart/features/food_store/view/categorywise_food_screen.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCardWidget extends StatelessWidget {
@@ -10,33 +11,45 @@ class CategoryCardWidget extends StatelessWidget {
   final String imgUrl;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      // height: MediaQuery.of(context).size.height * 0.12,
-      width: MediaQuery.of(context).size.height * 0.18,
-      child: Card(
-        elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        clipBehavior: Clip.antiAlias,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-          imgUrl=='NULL'?Placeholder() : Image.network(
-              imgUrl,
-              fit: BoxFit.cover,
-            ),
-            Container(
-              color: Colors.black26,
-            ),
-            Center(
-              child: Text(
-                category,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    CategorywiseFoodScreen(category: category)));
+      },
+      child: SizedBox(
+        // height: MediaQuery.of(context).size.height * 0.12,
+        width: MediaQuery.of(context).size.height * 0.18,
+        child: Card(
+          elevation: 8,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          clipBehavior: Clip.antiAlias,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              imgUrl == 'NULL'
+                  ? Placeholder()
+                  : Image.network(
+                      imgUrl,
+                      fit: BoxFit.cover,
+                    ),
+              Container(
+                color: Colors.black26,
               ),
-            )
-          ],
+              Center(
+                child: Text(
+                  category,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
