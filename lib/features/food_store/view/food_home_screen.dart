@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ds_cart/features/food_store/core/widgets/category_card_widget.dart';
 import 'package:ds_cart/features/food_store/core/widgets/explore_item_card_widget.dart';
 import 'package:ds_cart/features/food_store/core/widgets/special_item_card.dart';
@@ -6,6 +8,7 @@ import 'package:ds_cart/features/food_store/view/food_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/categories.dart';
+import '../service/local_storage/user_profile_storage.dart';
 
 class FoodHomeScreen extends StatefulWidget {
   const FoodHomeScreen({super.key});
@@ -15,10 +18,12 @@ class FoodHomeScreen extends StatefulWidget {
 }
 
 class _FoodHomeScreenState extends State<FoodHomeScreen> {
+  late String? address;
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
+      getUserAddress();
       final provider = context.read<FoodProvider>();
       if (provider.foods.isEmpty) {
         provider.getAllFoods();
@@ -26,12 +31,21 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
     });
   }
 
+  void getUserAddress() async {
+    Map<String, dynamic>? userObject =
+        await UserProfileStorage().getUserProfile();
+    if (userObject != null) {
+      address = userObject["address"];
+      log("$address");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
         child: SingleChildScrollView(
           child: Column(
             spacing: 8,
@@ -43,6 +57,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
                 children: [
                   Flexible(
                     child: Column(
+                      spacing: 6,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -50,7 +65,9 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                         Text(
-                          "📍 123, Baker Streets, Malegaon Central",
+                          address != null
+                              ? "📍 $address"
+                              : "Tap to Add Address",
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
