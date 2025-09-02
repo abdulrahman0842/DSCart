@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../features/food_store/provider/order_provider.dart';
-import '../../service/local_storage/auth_storage.dart';
-
+import '../../service/local_storage/user_storage.dart';
 
 class AddressBottomSheet {
   static void show(BuildContext context) {
@@ -30,18 +29,21 @@ class AddressBottomSheet {
                     ),
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      final entered = addressController.text.trim();
-                      if (entered.isNotEmpty) {
-                        final authStorage = AuthStorage();
-                        authStorage.updateUserAddress(entered);
-                        // Reload address in viewmodel
-                        context.read<OrderProvider>().getUserAddress();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Text("Save Address"),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final entered = addressController.text.trim();
+                        if (entered.isNotEmpty) {
+                          final authStorage = UserStorage();
+                          authStorage.updateUserAddress(entered);
+                          // Reload address in viewmodel
+                          context.read<OrderProvider>().getUserAddress();
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Text("Save Address"),
+                    ),
                   ),
                 ],
               ),

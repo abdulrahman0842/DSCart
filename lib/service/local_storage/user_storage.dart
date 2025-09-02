@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthStorage {
+class UserStorage {
   Future<void> storeUserData(String name, String address) async {
     final pref = await SharedPreferences.getInstance();
     pref.setString("UserName", name);

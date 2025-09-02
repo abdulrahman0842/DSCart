@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 
 import '../features/food_store/service/local_storage/user_profile_storage.dart';
 import '../view/home_screen.dart';
-import '../service/local_storage/auth_storage.dart';
+import '../service/local_storage/user_storage.dart';
 
 class AuthProvider with ChangeNotifier {
   final IAuthService _authService;
   AuthProvider(this._authService);
 
   bool isLoading = false;
-  final _authStorage = AuthStorage();
+  final _authStorage = UserStorage();
   final _userProfileStorage = UserProfileStorage();
 
   Future<void> register(BuildContext context, String name, String email,

@@ -1,5 +1,5 @@
 import 'package:ds_cart/features/food_store/interface/i_food_order_service.dart';
-import 'package:ds_cart/service/local_storage/auth_storage.dart';
+import 'package:ds_cart/service/local_storage/user_storage.dart';
 import 'package:flutter/material.dart';
 import '../model/food_model.dart';
 
@@ -16,7 +16,7 @@ class OrderProvider with ChangeNotifier {
   String _errorMessage = "";
   String get errorMessage => _errorMessage;
 
-  final _authStorage = AuthStorage();
+  final _authStorage = UserStorage();
 
   Future<void> placeOrder(List<Food> allOrder, double totalAmount) async {
     _isLoading = true;
