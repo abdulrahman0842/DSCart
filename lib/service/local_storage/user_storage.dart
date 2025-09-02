@@ -19,6 +19,6 @@ class UserStorage {
 
   Future<void> updateUserAddress(String address) async {
     final pref = await SharedPreferences.getInstance();
-    pref.setString("UserAddress", address);
+    await pref.setString("UserAddress", address);
   }
 }

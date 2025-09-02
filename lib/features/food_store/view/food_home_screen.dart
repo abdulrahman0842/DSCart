@@ -1,3 +1,4 @@
+import 'package:ds_cart/core/widgets/address_bottom_sheet.dart';
 import 'package:ds_cart/features/food_store/core/widgets/category_card_widget.dart';
 import 'package:ds_cart/features/food_store/core/widgets/explore_item_card_widget.dart';
 import 'package:ds_cart/features/food_store/core/widgets/special_item_card.dart';
@@ -6,7 +7,7 @@ import 'package:ds_cart/features/food_store/view/food_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/categories.dart';
-import '../service/local_storage/user_profile_storage.dart';
+import '../../../service/local_storage/user_storage.dart';
 
 class FoodHomeScreen extends StatefulWidget {
   const FoodHomeScreen({super.key});
@@ -43,11 +44,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
   }
 
   void getUserAddress() async {
-    Map<String, dynamic>? userObject =
-        await UserProfileStorage().getUserProfile();
-    if (userObject != null) {
-      address.value = userObject["address"];
-    }
+    address.value = await UserStorage().getUserAddress();
   }
 
   @override
@@ -163,9 +160,10 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
               ValueListenableBuilder(
                   valueListenable: address,
                   builder: (context, address, _) {
-                    return GestureDetector(onTap: (){
-                      
-                    },
+                    return GestureDetector(
+                      onTap: () async {
+                        AddressBottomSheet.show(context, getUserAddress);
+                      },
                       child: Text(
                         address != null ? "📍 $address" : "Tap to Add Address",
                         overflow: TextOverflow.ellipsis,

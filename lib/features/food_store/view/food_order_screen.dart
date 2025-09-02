@@ -27,7 +27,7 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
       final orderProvider = context.read<OrderProvider>();
       await orderProvider.getUserAddress();
       if (orderProvider.address == null) {
-        AddressBottomSheet.show(context);
+        AddressBottomSheet.show(context, () => orderProvider.getUserAddress());
       }
     });
   }
@@ -66,7 +66,10 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
                   )),
                   IconButton(
                       onPressed: () {
-                        AddressBottomSheet.show(context);
+                        AddressBottomSheet.show(
+                            context,
+                            () =>
+                                context.read<OrderProvider>().getUserAddress());
                       },
                       icon: Icon(Icons.edit))
                 ],
@@ -126,7 +129,6 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
                     });
                   }
                 },
-                
                 child: const Text("Place Order"),
               ),
             ),

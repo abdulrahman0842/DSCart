@@ -1,9 +1,6 @@
 import 'dart:developer';
-
 import 'package:ds_cart/core/interface/i_auth_service.dart';
 import 'package:flutter/material.dart';
-
-import '../features/food_store/service/local_storage/user_profile_storage.dart';
 import '../view/home_screen.dart';
 import '../service/local_storage/user_storage.dart';
 
@@ -12,8 +9,7 @@ class AuthProvider with ChangeNotifier {
   AuthProvider(this._authService);
 
   bool isLoading = false;
-  final _authStorage = UserStorage();
-  final _userProfileStorage = UserProfileStorage();
+  final _userStorage = UserStorage();
 
   Future<void> register(BuildContext context, String name, String email,
       String password, String address) async {
@@ -26,12 +22,11 @@ class AuthProvider with ChangeNotifier {
       isLoading = false;
       notifyListeners();
 
-      await _userProfileStorage.storeUserProfile(name, email, address);
-
       if (token != null) {
+
         //Local Storage Methods
-        _authStorage.storeToken(token);
-        _authStorage.storeUserData(name, address);
+        _userStorage.storeToken(token);
+        _userStorage.storeUserData(name, address);
         log(token);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
@@ -60,7 +55,7 @@ class AuthProvider with ChangeNotifier {
 
       if (token != null) {
         //Local Storage Methods
-        _authStorage.storeToken(token);
+        _userStorage.storeToken(token);
         log(token);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));

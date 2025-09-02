@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../features/food_store/provider/order_provider.dart';
 import '../../service/local_storage/user_storage.dart';
 
 class AddressBottomSheet {
-  static void show(BuildContext context) {
+  static void show(BuildContext context, Function() next) {
     final addressController = TextEditingController();
     showModalBottomSheet(
         context: context,
@@ -32,14 +30,15 @@ class AddressBottomSheet {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         final entered = addressController.text.trim();
                         if (entered.isNotEmpty) {
-                          final authStorage = UserStorage();
-                          authStorage.updateUserAddress(entered);
-                          // Reload address in viewmodel
-                          context.read<OrderProvider>().getUserAddress();
-                          Navigator.pop(context);
+                          final userStorage = UserStorage();
+                          await userStorage.updateUserAddress(entered);
+                          next();
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
                         }
                       },
                       child: Text("Save Address"),
@@ -48,5 +47,6 @@ class AddressBottomSheet {
                 ],
               ),
             ));
+            
   }
 }
