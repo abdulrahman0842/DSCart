@@ -16,8 +16,6 @@ class OrderProvider with ChangeNotifier {
   String _errorMessage = "";
   String get errorMessage => _errorMessage;
 
-  final _authStorage = UserStorage();
-
   Future<void> placeOrder(List<Food> allOrder, double totalAmount) async {
     _isLoading = true;
     _isOrderPlaced = false;
@@ -25,7 +23,7 @@ class OrderProvider with ChangeNotifier {
     try {
       List<String> itemsId = allOrder.map((item) => item.id).toList();
       await _orderService.placeOrder(
-          itemsId, totalAmount, 30, address ?? "UNknown");
+          itemsId, totalAmount, 30, address ?? "Unknown");
       _isLoading = false;
       _isOrderPlaced = true;
       notifyListeners();
@@ -38,7 +36,7 @@ class OrderProvider with ChangeNotifier {
   }
 
   Future<void> getUserAddress() async {
-    _address = await _authStorage.getUserAddress();
+    _address = await UserStorage.getUserAddress();
     notifyListeners();
   }
 }

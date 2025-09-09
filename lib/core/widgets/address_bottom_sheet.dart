@@ -33,8 +33,7 @@ class AddressBottomSheet {
                       onPressed: () async {
                         final entered = addressController.text.trim();
                         if (entered.isNotEmpty) {
-                          final userStorage = UserStorage();
-                          await userStorage.updateUserAddress(entered);
+                          await UserStorage.updateUserAddress(entered);
                           next();
                           if (context.mounted) {
                             Navigator.pop(context);

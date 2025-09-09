@@ -1,3 +1,5 @@
+import 'package:ds_cart/service/auth_service.dart';
+import 'package:ds_cart/view/home_screen.dart';
 import 'package:ds_cart/view/register_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,10 +18,10 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    _animateAndMoveToNextScreen();
+    _animate();
   }
 
-  void _animateAndMoveToNextScreen() {
+  void _animate() {
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -29,12 +31,20 @@ class _SplashScreenState extends State<SplashScreen>
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _fadeTransition = Tween<double>(begin: 0.0, end: 1.0)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
+    _checkLoginAndNavigate();
     _controller.forward();
+  }
+
+  void _checkLoginAndNavigate() async {
+    final bool isLoggedIn = await AuthService.isLoggedIn();
 
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => RegisterScreen()));
+      if (mounted) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (_) => isLoggedIn ? HomeScreen() : RegisterScreen()));
+      }
     });
   }
 

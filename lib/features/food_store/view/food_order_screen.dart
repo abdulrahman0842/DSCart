@@ -6,13 +6,8 @@ import '../provider/cart_provider.dart';
 import '../provider/order_provider.dart';
 
 class FoodOrderScreen extends StatefulWidget {
-  final List<Food> foodItems;
-  final double totalAmount;
-
   const FoodOrderScreen({
     super.key,
-    required this.foodItems,
-    required this.totalAmount,
   });
 
   @override
@@ -23,7 +18,7 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final orderProvider = context.read<OrderProvider>();
       await orderProvider.getUserAddress();
       if (orderProvider.address == null) {
@@ -34,56 +29,30 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    List<Food> cartItems = cartProvider.cartItems;
+    double totalAmount = cartProvider.cartTotal;
+    double grossTotal = totalAmount + 30;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Your Order"),
+        automaticallyImplyLeading: false,
+        title: const Text("Order"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
         child: Column(
           children: [
-            // Address section
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                border: Border.all(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(Icons.location_on, color: Colors.red),
-                  const SizedBox(width: 8),
-                  Expanded(child: Consumer<OrderProvider>(
-                    builder: (context, provider, _) {
-                      return Text(
-                        provider.address ?? "NOT Found",
-                        style: const TextStyle(fontSize: 16),
-                      );
-                    },
-                  )),
-                  IconButton(
-                      onPressed: () {
-                        AddressBottomSheet.show(
-                            context,
-                            () =>
-                                context.read<OrderProvider>().getUserAddress());
-                      },
-                      icon: Icon(Icons.edit))
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
+            // Address bar
+            showAddressBar(context),
+            const SizedBox(height: 10),
 
             // Order items list
             Expanded(
               child: ListView.separated(
-                itemCount: widget.foodItems.length,
+                itemCount: cartItems.length,
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
-                  final item = widget.foodItems[index];
+                  final item = cartItems[index];
                   return ListTile(
                     title: Text(item.name),
                     subtitle: Text("Quantity: 1"),
@@ -95,17 +64,53 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
             const SizedBox(height: 16),
 
             // Total amount
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              spacing: 5,
               children: [
-                const Text(
-                  "Total:",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Total:",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "₹${totalAmount.toStringAsFixed(2)}",
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w500),
+                    ),
+                  ],
                 ),
-                Text(
-                  "₹${widget.totalAmount.toStringAsFixed(2)}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Delivery Charge:",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "₹30.0",
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Gross Total:",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "₹${grossTotal.toStringAsFixed(2)}",
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -115,17 +120,21 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.all(8),
+                    backgroundColor: Colors.deepOrange,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12))),
                 onPressed: () async {
                   final orderProvider = context.read<OrderProvider>();
-                  await orderProvider.placeOrder(
-                      widget.foodItems, widget.totalAmount);
+                  await orderProvider.placeOrder(cartItems, totalAmount);
                   if (orderProvider.isOrderPlaced) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Order placed successfully")),
                     );
                     await Future.delayed(Duration(seconds: 2), () {
                       context.read<CartProvider>().emptyCart();
-                      Navigator.pop(context);
                     });
                   }
                 },
@@ -134,6 +143,42 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Address Bar
+  Container showAddressBar(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Icon(Icons.location_on, color: Colors.red),
+          const SizedBox(width: 8),
+          Expanded(child: Consumer<OrderProvider>(
+            builder: (context, provider, _) {
+              return Text(
+                provider.address ?? "NOT Found",
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 16),
+              );
+            },
+          )),
+          IconButton(
+              onPressed: () {
+                AddressBottomSheet.show(context,
+                    () => context.read<OrderProvider>().getUserAddress());
+              },
+              icon: Icon(Icons.edit))
+        ],
       ),
     );
   }

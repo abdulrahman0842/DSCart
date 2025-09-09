@@ -129,17 +129,13 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FoodOrderScreen(
-                                    foodItems: provider.cartItems,
-                                    totalAmount: provider.cartTotal)));
+                                builder: (context) => FoodOrderScreen()));
                       } else {
                         await provider.addToCart(context, widget.food);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FoodOrderScreen(
-                                    foodItems: provider.cartItems,
-                                    totalAmount: provider.cartTotal)));
+                                builder: (context) => FoodOrderScreen()));
                       }
                     },
                     icon: Icon(Icons.shopping_cart_checkout),

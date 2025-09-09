@@ -24,6 +24,7 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Cart"),
       ),
       bottomNavigationBar: Padding(
@@ -44,23 +45,13 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
                             "No items in Cart, add items before Ordering")));
                     return;
                   }
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => FoodOrderScreen(
-                                foodItems:
-                                    context.read<CartProvider>().cartItems,
-                                totalAmount:
-                                    context.read<CartProvider>().cartTotal,
-                              )));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => FoodOrderScreen()));
                 },
                 icon: Icon(Icons.shopping_cart),
                 label: Text("Order Now"),
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.all(15),
-                  backgroundColor: Colors.deepOrange,
-                  foregroundColor: Colors.white,
-                  textStyle: const TextStyle(fontSize: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

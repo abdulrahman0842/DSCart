@@ -18,19 +18,8 @@ class FoodHomeScreen extends StatefulWidget {
 
 class _FoodHomeScreenState extends State<FoodHomeScreen> {
   ValueNotifier<String?> address = ValueNotifier<String?>('');
-  int _currentIndex = 0;
-  List<Widget> pages = [
-    Center(
-      child: Text("Home"),
-    ),
-    Center(
-      child: Text("Cart"),
-    ),
-    Center(
-      child: Text("Profile"),
-    )
-  ];
 
+  
   @override
   void initState() {
     super.initState();
@@ -44,7 +33,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
   }
 
   void getUserAddress() async {
-    address.value = await UserStorage().getUserAddress();
+    address.value = await UserStorage.getUserAddress();
   }
 
   @override
@@ -114,32 +103,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
           ),
         ),
       )),
-      bottomNavigationBar: NavigationBar(
-          height: 60,
-          backgroundColor: const Color.fromARGB(255, 247, 225, 196),
-          indicatorColor: const Color.fromARGB(255, 248, 205, 148),
-          elevation: 6,
-          indicatorShape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          animationDuration: Duration(milliseconds: 300),
-          onDestinationSelected: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          selectedIndex: _currentIndex,
-          destinations: [
-            NavigationDestination(
-              icon: Icon(Icons.home),
-              label: "Home",
-            ),
-            NavigationDestination(
-                icon: Icon(Icons.shopping_cart), label: "Cart"),
-            NavigationDestination(
-                icon: Icon(Icons.delivery_dining_rounded), label: "Order"),
-            NavigationDestination(icon: Icon(Icons.person_2), label: "Account"),
-          ]),
+      
     );
   }
 
@@ -174,30 +138,36 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
             ],
           ),
         ),
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.search,
-              size: 28,
-              weight: 18,
-            )),
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.notifications_none,
-              size: 28,
-              weight: 18,
-            )),
-        IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (contetx) => FoodCartScreen()));
-            },
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              size: 28,
-              weight: 18,
-            )),
+        Row(
+          children: [
+            IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.search,
+                  size: 28,
+                  weight: 18,
+                )),
+            IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.notifications_none,
+                  size: 28,
+                  weight: 18,
+                )),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (contetx) => FoodCartScreen()));
+                },
+                icon: Icon(
+                  Icons.shopping_cart_outlined,
+                  size: 28,
+                  weight: 18,
+                )),
+          ],
+        ),
       ],
     );
   }

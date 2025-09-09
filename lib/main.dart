@@ -35,7 +35,7 @@ void main() async {
       create: (_) =>
           OrderProvider(isMock ? MockFoodOrderService() : FoodOrderService()),
     )
-  ], child: const MyApp()));
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -50,7 +50,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.brown),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: SplashScreen(
+      ),
     );
   }
 }
