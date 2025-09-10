@@ -1,20 +1,21 @@
 import 'package:ds_cart/core/widgets/address_bottom_sheet.dart';
+import 'package:ds_cart/core/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/food_model.dart';
 import '../provider/cart_provider.dart';
 import '../provider/order_provider.dart';
 
-class FoodOrderScreen extends StatefulWidget {
-  const FoodOrderScreen({
+class FoodOrderDetailScreen extends StatefulWidget {
+  const FoodOrderDetailScreen({
     super.key,
   });
 
   @override
-  State<FoodOrderScreen> createState() => _FoodOrderScreenState();
+  State<FoodOrderDetailScreen> createState() => _FoodOrderDetailScreenState();
 }
 
-class _FoodOrderScreenState extends State<FoodOrderScreen> {
+class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
   @override
   void initState() {
     super.initState();
@@ -34,10 +35,7 @@ class _FoodOrderScreenState extends State<FoodOrderScreen> {
     double totalAmount = cartProvider.cartTotal;
     double grossTotal = totalAmount + 30;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Order"),
-      ),
+      appBar: CustomAppbar(title: "Your Order"),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
         child: Column(

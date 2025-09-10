@@ -47,11 +47,12 @@ class MyApp extends StatelessWidget {
       title: 'DS Cart',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+        ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.brown),
         useMaterial3: true,
       ),
-      home: SplashScreen(
-      ),
+      home: SplashScreen(),
     );
   }
 }

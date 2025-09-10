@@ -1,6 +1,6 @@
 import 'package:ds_cart/features/food_store/model/food_model.dart';
 import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
-import 'package:ds_cart/features/food_store/view/food_order_screen.dart';
+import 'package:ds_cart/features/food_store/view/food_order_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -129,13 +129,13 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FoodOrderScreen()));
+                                builder: (context) => FoodOrderDetailScreen()));
                       } else {
                         await provider.addToCart(context, widget.food);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FoodOrderScreen()));
+                                builder: (context) => FoodOrderDetailScreen()));
                       }
                     },
                     icon: Icon(Icons.shopping_cart_checkout),

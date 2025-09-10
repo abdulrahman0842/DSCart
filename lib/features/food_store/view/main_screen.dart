@@ -1,7 +1,8 @@
-import 'package:ds_cart/features/food_store/view/food_cart_screen.dart';
 import 'package:ds_cart/features/food_store/view/food_home_screen.dart';
-import 'package:ds_cart/features/food_store/view/food_order_screen.dart';
+import 'package:ds_cart/view/user_account_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'order_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,10 +16,8 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> screens = [
     FoodHomeScreen(),
-    FoodOrderScreen(),
-    Scaffold(
-        appBar: AppBar(title: Text("Profile")),
-        body: Center(child: Text("Profile")))
+    OrderScreen(),
+    UserAccountScreen()
   ];
 
   @override

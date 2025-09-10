@@ -1,9 +1,8 @@
 import 'package:ds_cart/core/widgets/main_choice_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../features/food_store/view/food_home_screen.dart';
 import '../features/food_store/view/main_screen.dart';
+import '../features/food_store/view/order_screen.dart';
 import '../provider/auth_provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -55,6 +54,15 @@ class HomeScreen extends StatelessWidget {
                     nextScreen: Scaffold(
                       body: Center(child: Text("DS Fashions")),
                     )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => OrderScreen()));
+                    },
+                    child: Text(
+                      "Testing Screen",
+                      style: TextStyle(color: Colors.white),
+                    ))
               ],
             ),
           ),

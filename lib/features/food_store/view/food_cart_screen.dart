@@ -1,8 +1,9 @@
+import 'package:ds_cart/core/widgets/custom_appbar.dart';
 import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'food_order_screen.dart';
+import 'food_order_detail_screen.dart';
 
 class FoodCartScreen extends StatefulWidget {
   const FoodCartScreen({super.key});
@@ -23,10 +24,7 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("Cart"),
-      ),
+      appBar: CustomAppbar(title: "Cart"),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SizedBox(
@@ -45,8 +43,10 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
                             "No items in Cart, add items before Ordering")));
                     return;
                   }
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => FoodOrderScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => FoodOrderDetailScreen()));
                 },
                 icon: Icon(Icons.shopping_cart),
                 label: Text("Order Now"),

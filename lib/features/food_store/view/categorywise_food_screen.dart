@@ -2,6 +2,7 @@ import 'package:ds_cart/features/food_store/core/widgets/explore_item_card_widge
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/widgets/custom_appbar.dart';
 import '../provider/food_provider.dart';
 
 class CategorywiseFoodScreen extends StatefulWidget {
@@ -26,10 +27,7 @@ class _CategorywiseFoodScreenState extends State<CategorywiseFoodScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.category),
-        backgroundColor: const Color.fromARGB(255, 247, 225, 196),
-      ),
+      appBar: CustomAppbar(title: widget.category),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Consumer<FoodProvider>(builder: (context, provider, child) {
