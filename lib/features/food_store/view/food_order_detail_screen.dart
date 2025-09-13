@@ -1,5 +1,6 @@
 import 'package:ds_cart/core/widgets/address_bottom_sheet.dart';
 import 'package:ds_cart/core/widgets/custom_appbar.dart';
+import 'package:ds_cart/utils/flush_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/food_model.dart';
@@ -128,11 +129,9 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
                   final orderProvider = context.read<OrderProvider>();
                   await orderProvider.placeOrder(cartItems, totalAmount);
                   if (orderProvider.isOrderPlaced) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Order placed successfully")),
-                    );
+                    FlushBar.success("Order Placed Successfully!", context);
                     await Future.delayed(Duration(seconds: 2), () {
-                      context.read<CartProvider>().emptyCart();
+                      context.read<CartProvider>().emptyCart(); 
                     });
                   }
                 },

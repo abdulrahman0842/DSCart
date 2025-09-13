@@ -67,6 +67,7 @@ class ExploreItemCardWidget extends StatelessWidget {
                     ),
                     Text(
                       "\$ ${foodItem.price}",
+                      
                       style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,

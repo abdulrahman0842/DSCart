@@ -1,4 +1,5 @@
 import 'package:ds_cart/core/widgets/main_choice_card.dart';
+import 'package:ds_cart/utils/flush_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../features/food_store/view/main_screen.dart';
@@ -56,8 +57,44 @@ class HomeScreen extends StatelessWidget {
                     )),
                 TextButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => OrderScreen()));
+                      void showCustomToast(
+                          BuildContext context, String message) {
+                        final overlay = Overlay.of(context);
+                        final overlayEntry = OverlayEntry(
+                          builder: (context) => Positioned(
+                            top: MediaQuery.of(context).size.height * 0.4,
+                            left: 50,
+                            right: 50,
+                            child: Material(
+                              color: Colors.transparent,
+                              child: Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.check_circle,
+                                        color: Colors.green, size: 24),
+                                    SizedBox(width: 8),
+                                    Text(message,
+                                        style: TextStyle(color: Colors.white)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+
+                        overlay.insert(overlayEntry);
+
+                        Future.delayed(Duration(seconds: 3), () {
+                          overlayEntry.remove();
+                        });
+                      }
+                      showCustomToast(context,"Order Placed");
                     },
                     child: Text(
                       "Testing Screen",

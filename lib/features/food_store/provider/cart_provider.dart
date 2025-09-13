@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ds_cart/utils/flush_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../model/food_model.dart';
@@ -27,8 +28,7 @@ class CartProvider with ChangeNotifier {
       notifyListeners();
 
       _cartTotal += foodItem.price;
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("${foodItem.name} Added to Cart")));
+      FlushBar.neutral("${foodItem.name} Added to Cart", context);
     } catch (e) {
       _isLoading = false;
       notifyListeners();
@@ -49,8 +49,7 @@ class CartProvider with ChangeNotifier {
       notifyListeners();
 
       _cartTotal -= price;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Removed from Cart")));
+      FlushBar.removed("Removed from Cart", context);
     } catch (e) {
       _isLoading = false;
       notifyListeners();
