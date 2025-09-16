@@ -17,7 +17,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FoodProvider>().getFoodById(widget.food.id);
     });
   }

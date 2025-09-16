@@ -1,5 +1,6 @@
 import 'package:ds_cart/features/food_store/view/categorywise_food_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CategoryCardWidget extends StatelessWidget {
   const CategoryCardWidget({
@@ -30,12 +31,14 @@ class CategoryCardWidget extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              imgUrl == 'NULL'
-                  ? Placeholder()
-                  : Image.network(
-                      imgUrl,
-                      fit: BoxFit.cover,
-                    ),
+              CachedNetworkImage(
+                imageUrl: imgUrl,
+                errorWidget: (context, url, error) => Icon(
+                    Icons.error_outline_outlined,
+                    size: 40,
+                    color: Colors.red),
+                fit: BoxFit.cover,
+              ),
               Container(
                 color: Colors.black26,
               ),

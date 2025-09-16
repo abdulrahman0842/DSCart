@@ -16,7 +16,7 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<CartProvider>().getCartItems(context);
     });
   }

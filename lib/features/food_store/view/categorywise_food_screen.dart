@@ -18,7 +18,7 @@ class _CategorywiseFoodScreenState extends State<CategorywiseFoodScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = context.read<FoodProvider>();
       provider.getFoodByCategory(widget.category);
     });
