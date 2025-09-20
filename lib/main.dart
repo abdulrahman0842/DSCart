@@ -9,9 +9,11 @@ import 'package:ds_cart/service/auth_service.dart';
 import 'package:ds_cart/service/mock_auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'features/food_store/provider/cart_provider.dart';
+import 'provider/user_provider.dart';
 import 'view/splash_screen.dart';
 
 void main() async {
@@ -21,6 +23,11 @@ void main() async {
 
   Hive.registerAdapter(FoodAdapter());
   await Hive.openBox<Food>("foodCartBox");
+
+  // Set Screen Orientation to only Portrait
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   const bool isMock = kDebugMode;
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
@@ -34,7 +41,8 @@ void main() async {
     ChangeNotifierProvider(
       create: (_) =>
           OrderProvider(isMock ? MockFoodOrderService() : FoodOrderService()),
-    )
+    ),
+    ChangeNotifierProvider(create: (_) => UserProvider())
   ], child: MyApp()));
 }
 
@@ -47,8 +55,7 @@ class MyApp extends StatelessWidget {
       title: 'DS Cart',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-        ),
+        appBarTheme: AppBarTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.brown),
         useMaterial3: true,
       ),
