@@ -9,8 +9,6 @@ class OrderProvider with ChangeNotifier {
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-  String? _address;
-  String? get address => _address;
   bool _isOrderPlaced = false;
   bool get isOrderPlaced => _isOrderPlaced;
   String _errorMessage = "";
@@ -21,9 +19,10 @@ class OrderProvider with ChangeNotifier {
     _isOrderPlaced = false;
     notifyListeners();
     try {
+      final address = await UserStorage.getUserAddress();
       List<String> itemsId = allOrder.map((item) => item.id).toList();
       await _orderService.placeOrder(
-          itemsId, totalAmount, 30, address ?? "Unknown");
+          itemsId, totalAmount, 30, address ?? "UnAvailable");
       _isLoading = false;
       _isOrderPlaced = true;
       notifyListeners();
@@ -35,8 +34,4 @@ class OrderProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getUserAddress() async {
-    _address = await UserStorage.getUserAddress();
-    notifyListeners();
-  }
 }

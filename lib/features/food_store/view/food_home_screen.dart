@@ -6,8 +6,8 @@ import 'package:ds_cart/features/food_store/provider/food_provider.dart';
 import 'package:ds_cart/features/food_store/view/food_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../provider/user_provider.dart';
 import '../core/categories.dart';
-import '../../../service/local_storage/user_storage.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class FoodHomeScreen extends StatefulWidget {
@@ -18,22 +18,16 @@ class FoodHomeScreen extends StatefulWidget {
 }
 
 class _FoodHomeScreenState extends State<FoodHomeScreen> {
-  ValueNotifier<String?> address = ValueNotifier<String?>('');
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      getUserAddress();
+      context.read<UserProvider>().getAddress();
       final provider = context.read<FoodProvider>();
       if (provider.foods.isEmpty) {
         provider.getAllFoods();
       }
     });
-  }
-
-  void getUserAddress() async {
-    address.value = await UserStorage.getUserAddress();
   }
 
   @override
@@ -124,6 +118,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
   }
 
   Widget _appBar(BuildContext context) {
+    final userProvider = context.watch<UserProvider>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       child: Row(
@@ -139,22 +134,22 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
                   "Delivery Address",
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
-                ValueListenableBuilder(
-                    valueListenable: address,
-                    builder: (context, address, _) {
-                      return GestureDetector(
-                        onTap: () async {
-                          AddressBottomSheet.show(context, getUserAddress);
-                        },
-                        child: Text(
-                          address != null
-                              ? "📍 $address"
-                              : "Tap to Add Address",
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      );
-                    })
+                GestureDetector(
+                  onTap: () async {
+                    final newAddress = await AddressBottomSheet.show(context);
+                    if (newAddress != null && newAddress.isNotEmpty) {
+                      userProvider.saveAddress(newAddress);
+                      return;
+                    }
+                  },
+                  child: Text(
+                    userProvider.address != null
+                        ? "📍 ${userProvider.address}"
+                        : "Tap to Add Address",
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                )
               ],
             ),
           ),

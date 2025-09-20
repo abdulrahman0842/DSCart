@@ -6,6 +6,7 @@ class UserStorage {
     pref.setString("UserName", name);
     pref.setString("UserAddress", address);
   }
+  
 
  static  Future<void> storeToken(String token) async {
     final pref = await SharedPreferences.getInstance();

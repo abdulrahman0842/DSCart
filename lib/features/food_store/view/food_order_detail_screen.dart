@@ -3,6 +3,7 @@ import 'package:ds_cart/core/widgets/custom_appbar.dart';
 import 'package:ds_cart/utils/flush_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../provider/user_provider.dart';
 import '../model/food_model.dart';
 import '../provider/cart_provider.dart';
 import '../provider/order_provider.dart';
@@ -21,12 +22,25 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final orderProvider = context.read<OrderProvider>();
-      await orderProvider.getUserAddress();
-      if (orderProvider.address == null) {
-        AddressBottomSheet.show(context, () => orderProvider.getUserAddress());
-      }
+      _checkAddress();
     });
+  }
+
+  Future<void> _checkAddress() async {
+    final userProvider = context.read<UserProvider>();
+    await userProvider.getAddress();
+
+    if (context.mounted) {
+      if (userProvider.address == null || userProvider.address!.isEmpty) {
+        String? newAddress = await AddressBottomSheet.show(context);
+        if (newAddress == null || newAddress.isEmpty) {
+          Navigator.pop(context);
+          return;
+        } else {
+          await userProvider.saveAddress(newAddress);
+        }
+      }
+    }
   }
 
   @override
@@ -35,6 +49,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
     List<Food> cartItems = cartProvider.cartItems;
     double totalAmount = cartProvider.cartTotal;
     double grossTotal = totalAmount + 30;
+
     return Scaffold(
       appBar: CustomAppbar(title: "Your Order"),
       body: Padding(
@@ -131,7 +146,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
                   if (orderProvider.isOrderPlaced) {
                     FlushBar.success("Order Placed Successfully!", context);
                     await Future.delayed(Duration(seconds: 2), () {
-                      context.read<CartProvider>().emptyCart(); 
+                      context.read<CartProvider>().emptyCart();
                     });
                   }
                 },
@@ -146,6 +161,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
 
   // Address Bar
   Container showAddressBar(BuildContext context) {
+    final userProvider = context.watch<UserProvider>();
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -159,20 +175,22 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
         children: [
           const Icon(Icons.location_on, color: Colors.red),
           const SizedBox(width: 8),
-          Expanded(child: Consumer<OrderProvider>(
-            builder: (context, provider, _) {
-              return Text(
-                provider.address ?? "NOT Found",
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 16),
-              );
-            },
+          Expanded(
+              child: Text(
+            userProvider.address ?? "Loading...",
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 16),
           )),
           IconButton(
-              onPressed: () {
-                AddressBottomSheet.show(context,
-                    () => context.read<OrderProvider>().getUserAddress());
+              onPressed: () async {
+                final newAddress = await AddressBottomSheet.show(
+                  context,
+                );
+                if (newAddress != null && newAddress.isNotEmpty) {
+                  await userProvider.saveAddress(newAddress);
+                  return;
+                }
               },
               icon: Icon(Icons.edit))
         ],
