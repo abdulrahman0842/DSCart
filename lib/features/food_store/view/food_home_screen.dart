@@ -92,7 +92,11 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
             ),
 
             // Explore Foods
-            Text("Explore", style: Theme.of(context).textTheme.titleLarge),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text("Explore",
+                  style: Theme.of(context).textTheme.titleLarge),
+            ),
             Consumer<FoodProvider>(builder: (context, provider, _) {
               if (provider.isLoading) {
                 return Center(child: CircularProgressIndicator());
@@ -159,13 +163,6 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
                   onPressed: () {},
                   icon: Icon(
                     Icons.search,
-                    size: 28,
-                    weight: 18,
-                  )),
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.notifications_none,
                     size: 28,
                     weight: 18,
                   )),

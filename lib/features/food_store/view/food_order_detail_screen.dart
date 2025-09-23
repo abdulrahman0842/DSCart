@@ -3,6 +3,7 @@ import 'package:ds_cart/core/widgets/custom_appbar.dart';
 import 'package:ds_cart/utils/flush_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/widgets/custom_elevated_button.dart';
 import '../../../provider/user_provider.dart';
 import '../model/food_model.dart';
 import '../provider/cart_provider.dart';
@@ -53,7 +54,8 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
     return Scaffold(
       appBar: CustomAppbar(title: "Your Order"),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
+        padding:
+            const EdgeInsets.only(left: 16.0, right: 16, bottom: 16, top: 6),
         child: Column(
           children: [
             // Address bar
@@ -70,7 +72,10 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
                   return ListTile(
                     title: Text(item.name),
                     subtitle: Text("Quantity: 1"),
-                    trailing: Text("₹${(item.price * 1).toStringAsFixed(2)}"),
+                    trailing: Text(
+                      "₹${(item.price * 1).toStringAsFixed(2)}",
+                      style: TextStyle(color: Colors.green),
+                    ),
                   );
                 },
               ),
@@ -131,28 +136,20 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
             const SizedBox(height: 16),
 
             // Place order button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(8),
-                    backgroundColor: Colors.deepOrange,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12))),
-                onPressed: () async {
-                  final orderProvider = context.read<OrderProvider>();
-                  await orderProvider.placeOrder(cartItems, totalAmount);
-                  if (orderProvider.isOrderPlaced) {
-                    FlushBar.success("Order Placed Successfully!", context);
-                    await Future.delayed(Duration(seconds: 2), () {
-                      context.read<CartProvider>().emptyCart();
-                    });
-                  }
-                },
-                child: const Text("Place Order"),
-              ),
-            ),
+            CustomElevatedButton(
+              backgroundColor: const Color(0xFF4CAF50),
+              child: const Text("Place Order"),
+              onPressed: () async {
+                final orderProvider = context.read<OrderProvider>();
+                await orderProvider.placeOrder(cartItems, totalAmount);
+                if (orderProvider.isOrderPlaced) {
+                  FlushBar.success("Order Placed Successfully!", context);
+                  await Future.delayed(Duration(seconds: 2), () {
+                    context.read<CartProvider>().emptyCart();
+                  });
+                }
+              },
+            )
           ],
         ),
       ),

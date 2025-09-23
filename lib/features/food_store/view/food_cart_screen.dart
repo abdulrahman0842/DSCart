@@ -25,39 +25,41 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(title: "Cart"),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SizedBox(
-          height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Consumer<CartProvider>(builder: (context, provider, _) {
-                return Text("Cart Total\n${provider.cartTotal}");
-              }),
-              ElevatedButton.icon(
-                onPressed: () {
-                  if (context.read<CartProvider>().cartItems.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                            "No items in Cart, add items before Ordering")));
-                    return;
-                  }
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => FoodOrderDetailScreen()));
-                },
-                icon: Icon(Icons.shopping_cart),
-                label: Text("Order Now"),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Consumer<CartProvider>(builder: (context, provider, _) {
+                  return Text("Cart Total\n${provider.cartTotal}");
+                }),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    if (context.read<CartProvider>().cartItems.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              "No items in Cart, add items before Ordering")));
+                      return;
+                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => FoodOrderDetailScreen()));
+                  },
+                  icon: Icon(Icons.shopping_cart),
+                  label: Text("Order Now"),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.all(15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -57,6 +57,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.brown),
+        
+           
         useMaterial3: true,
       ),
       home: SplashScreen(),
