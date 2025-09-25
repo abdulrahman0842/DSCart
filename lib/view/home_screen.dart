@@ -42,12 +42,14 @@ class HomeScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),
                 MainChoiceCard(
-                    image: "food.jpg",
+                    image:
+                        "https://images.unsplash.com/photo-1594179047519-f347310d3322?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                     title: "DS Kitchens",
                     subTitle: "Enjoy delicious Cuisines",
                     nextScreen: MainScreen()),
                 MainChoiceCard(
-                    image: "clothing.jpg",
+                    image:
+                        "https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                     title: "DS Fashions",
                     subTitle: "Try out our amazing new Fashions",
                     nextScreen: Scaffold(
@@ -92,7 +94,8 @@ class HomeScreen extends StatelessWidget {
                           overlayEntry.remove();
                         });
                       }
-                      showCustomToast(context,"Order Placed");
+
+                      showCustomToast(context, "Order Placed");
                     },
                     child: Text(
                       "Testing Screen",

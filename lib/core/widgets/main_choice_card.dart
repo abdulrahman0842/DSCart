@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MainChoiceCard extends StatelessWidget {
@@ -18,21 +19,27 @@ class MainChoiceCard extends StatelessWidget {
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (_) => nextScreen));
       },
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        elevation: 8,
-        child: Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.25,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    opacity: 0.7,
-                    image: AssetImage('assets/images/$image')),
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(15)),
-            child: Column(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.25,
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          elevation: 8,
+          child: Stack(fit: StackFit.expand, children: [
+            CachedNetworkImage(
+              imageUrl: image,
+              fit: BoxFit.cover,
+              fadeInCurve: Curves.easeInOut,
+              fadeInDuration: Duration(milliseconds: 500),
+              placeholderFadeInDuration: Duration(milliseconds: 100),
+              alignment: Alignment.center,
+            ),
+            Container(
+              color: Colors.black38,
+            ),
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -52,7 +59,9 @@ class MainChoiceCard extends StatelessWidget {
                       fontWeight: FontWeight.w600),
                 ),
               ],
-            )),
+            ),
+          ]),
+        ),
       ),
     );
   }
