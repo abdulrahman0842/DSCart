@@ -3,7 +3,8 @@ import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
 import 'package:ds_cart/features/food_store/view/food_order_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../../../core/widgets/custom_elevated_icon_button.dart';
+import '../../../core/widgets/custom_outlined_icon_button.dart';
 import '../provider/food_provider.dart';
 
 class FoodDetailScreen extends StatefulWidget {
@@ -120,63 +121,44 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton.icon(
-                    onPressed: () async {
-                      if (provider.isInCart(widget.food)) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FoodOrderDetailScreen()));
-                      } else {
-                        await provider.addToCart(context, widget.food);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FoodOrderDetailScreen()));
-                      }
-                    },
-                    icon: Icon(Icons.shopping_cart_checkout),
-                    label: Text("Order Now"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 247, 225, 196),
-                      foregroundColor: Colors.black,
-                      textStyle: const TextStyle(fontSize: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
+              children: [CustomOutlinedIconButton(
+
+label: provider.isInCart(widget.food)
+                      ? "Remove from Cart"
+                      : "Add to Cart",
+                  icon: provider.isInCart(widget.food)
+                      ? Icon(Icons.remove_shopping_cart_outlined)
+                      : Icon(Icons.add_shopping_cart_outlined),
+                  onPressed: () {
+                    provider.isInCart(widget.food)
+                        ? context.read<CartProvider>().removeFromCart(
+                            context, widget.food.id, widget.food.price)
+                        : context
+                            .read<CartProvider>()
+                            .addToCart(context, widget.food);
+                  },
+
+),
+                CustomElevatedIconButton(
+                  label: "Order Now",
+                  icon: Icon(Icons.shopping_cart_checkout),
+                  onPressed: () async {
+                    if (provider.isInCart(widget.food)) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FoodOrderDetailScreen()));
+                    } else {
+                      await provider.addToCart(context, widget.food);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FoodOrderDetailScreen()));
+                    }
+                  },
                 ),
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      provider.isInCart(widget.food)
-                          ? context.read<CartProvider>().removeFromCart(
-                              context, widget.food.id, widget.food.price)
-                          : context
-                              .read<CartProvider>()
-                              .addToCart(context, widget.food);
-                    },
-                    icon: provider.isInCart(widget.food)
-                        ? Icon(Icons.remove_shopping_cart_outlined)
-                        : Icon(Icons.add_shopping_cart_outlined),
-                    label: provider.isInCart(widget.food)
-                        ? Text("remove from cart")
-                        : Text("Add to Cart"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 247, 225, 196),
-                      foregroundColor: Colors.black,
-                      textStyle: const TextStyle(fontSize: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
-                ),
+
+                
               ],
             ),
           );

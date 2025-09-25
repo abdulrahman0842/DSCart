@@ -3,6 +3,7 @@ import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/widgets/custom_elevated_icon_button.dart';
 import 'food_order_detail_screen.dart';
 
 class FoodCartScreen extends StatefulWidget {
@@ -24,10 +25,14 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: "Cart"),
+      appBar: CustomAppbar(
+        title: "Cart",
+        autoImplyLeadingIcon: true,
+      ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(
+              left: 16.0, right: 16.0, top: 16.0, bottom: 22),
           child: SizedBox(
             height: 50,
             child: Row(
@@ -36,7 +41,9 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
                 Consumer<CartProvider>(builder: (context, provider, _) {
                   return Text("Cart Total\n${provider.cartTotal}");
                 }),
-                ElevatedButton.icon(
+                CustomElevatedIconButton(
+                  label: "Order Now",
+                  icon: Icon(Icons.shopping_cart),
                   onPressed: () {
                     if (context.read<CartProvider>().cartItems.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -49,14 +56,6 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
                         MaterialPageRoute(
                             builder: (_) => FoodOrderDetailScreen()));
                   },
-                  icon: Icon(Icons.shopping_cart),
-                  label: Text("Order Now"),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -81,7 +80,10 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
                       onPressed: () {
                         provider.removeFromCart(context, item.id, item.price);
                       },
-                      icon: Icon(Icons.delete)),
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      )),
                 );
               });
         }

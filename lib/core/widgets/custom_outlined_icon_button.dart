@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomElevatedIconButton extends StatelessWidget {
-  const CustomElevatedIconButton(
+class CustomOutlinedIconButton extends StatelessWidget {
+  const CustomOutlinedIconButton(
       {super.key,
       required this.label,
       required this.icon,
@@ -14,13 +14,13 @@ class CustomElevatedIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      child: ElevatedButton.icon(
+      child: OutlinedButton.icon(
         onPressed: onPressed,
         icon: icon,
         label: Text(label),
-        style: ElevatedButton.styleFrom(
-          elevation: 4,
-          backgroundColor: const Color.fromARGB(255, 247, 225, 196),
+        style: OutlinedButton.styleFrom(
+          elevation: 8,
+          side: BorderSide(color: Theme.of(context).primaryColor),
           textStyle: const TextStyle(fontSize: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

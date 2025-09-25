@@ -24,6 +24,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       _checkAddress();
+     
     });
   }
 
@@ -52,7 +53,10 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
     double grossTotal = totalAmount + 30;
 
     return Scaffold(
-      appBar: CustomAppbar(title: "Your Order"),
+      appBar: CustomAppbar(
+        title: "Your Order",
+        autoImplyLeadingIcon: true,
+      ),
       body: Padding(
         padding:
             const EdgeInsets.only(left: 16.0, right: 16, bottom: 16, top: 6),
@@ -74,7 +78,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
                     subtitle: Text("Quantity: 1"),
                     trailing: Text(
                       "₹${(item.price * 1).toStringAsFixed(2)}",
-                      style: TextStyle(color: Colors.green),
+                      style: TextStyle(color: Colors.green, fontSize: 18),
                     ),
                   );
                 },
