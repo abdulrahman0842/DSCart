@@ -7,9 +7,6 @@ import '../model/food_model.dart';
 import '../service/local_storage/cart_storage.dart';
 
 class CartProvider with ChangeNotifier {
-  CartProvider() {
-    calculateCartTotal();
-  }
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

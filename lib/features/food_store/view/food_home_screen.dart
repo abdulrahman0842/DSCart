@@ -17,7 +17,11 @@ class FoodHomeScreen extends StatefulWidget {
   State<FoodHomeScreen> createState() => _FoodHomeScreenState();
 }
 
-class _FoodHomeScreenState extends State<FoodHomeScreen> {
+class _FoodHomeScreenState extends State<FoodHomeScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +36,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ds_cart/core/widgets/custom_appbar.dart';
 import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,9 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CartProvider>().getCartItems(context);
+      final provider = context.read<CartProvider>();
+      provider.getCartItems(context);
+      provider.calculateCartTotal();
     });
   }
 
@@ -39,7 +43,9 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Consumer<CartProvider>(builder: (context, provider, _) {
-                  return Text("Cart Total\n${provider.cartTotal}");
+                  return Text(
+                      textAlign: TextAlign.center,
+                      "Cart Total\n${provider.cartTotal}");
                 }),
                 CustomElevatedIconButton(
                   label: "Order Now",
