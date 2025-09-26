@@ -33,7 +33,7 @@ class Food extends HiveObject{
   @HiveField(5)
   String? description;
   @HiveField(6)
-  String? ingredients;
+  List<String>? ingredients;
 
   Food(
       {required this.id,

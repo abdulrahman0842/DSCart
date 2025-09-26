@@ -23,7 +23,7 @@ class FoodAdapter extends TypeAdapter<Food> {
       imageUrl: fields[4] as String,
       price: fields[3] as double,
       description: fields[5] as String?,
-      ingredients: fields[6] as String?,
+      ingredients: (fields[6] as List?)?.cast<String>(),
     );
   }
 

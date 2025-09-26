@@ -21,6 +21,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ingredients = widget.food.ingredients;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.food.name),
@@ -31,9 +32,10 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Food Image
-          Hero(tag:widget.food.id,
+          Hero(
+            tag: widget.food.id,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(0),
               child: Image.asset(
                 widget.food.imageUrl,
                 width: double.infinity,
@@ -58,7 +60,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                   ),
                 ),
                 Text(
-                  "₹${widget.food.price.toStringAsFixed(2)}",
+                  "₹${widget.food.price.toStringAsFixed(0)}",
                   style: const TextStyle(
                     fontSize: 20,
                     color: Colors.green,
@@ -68,34 +70,34 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 8),
 
           // Category
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Chip(
-              label: Text(widget.food.category),
+              label: Text(widget.food.category.toUpperCase()),
               backgroundColor: Colors.deepOrangeAccent.shade100,
             ),
           ),
-          const SizedBox(height: 16),
+
+          Divider(
+            endIndent: 10,
+            indent: 10,
+            thickness: 1.5,
+          ),
 
           // Description
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              "Description",
-              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.justify,
+              widget.food.description ?? "Unavailable",
+              style: const TextStyle(fontSize: 17),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Text(
-              widget.food.description ?? "NOT Available",
-              style: const TextStyle(fontSize: 16),
-            ),
+          const SizedBox(
+            height: 6,
           ),
-
           // Ingredients
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -104,11 +106,13 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Text(
-              widget.food.description ?? "Rice\nWhole Grains\n",
-              style: const TextStyle(fontSize: 16),
+          ...ingredients!.map(
+            (ingredient) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                "- $ingredient",
+                style: const TextStyle(fontSize: 16),
+              ),
             ),
           ),
         ],
@@ -119,9 +123,9 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [CustomOutlinedIconButton(
-
-label: provider.isInCart(widget.food)
+              children: [
+                CustomOutlinedIconButton(
+                  label: provider.isInCart(widget.food)
                       ? "Remove from Cart"
                       : "Add to Cart",
                   icon: provider.isInCart(widget.food)
@@ -135,8 +139,7 @@ label: provider.isInCart(widget.food)
                             .read<CartProvider>()
                             .addToCart(context, widget.food);
                   },
-
-),
+                ),
                 CustomElevatedIconButton(
                   label: "Order Now",
                   icon: Icon(Icons.shopping_cart_checkout),
@@ -155,8 +158,6 @@ label: provider.isInCart(widget.food)
                     }
                   },
                 ),
-
-                
               ],
             ),
           );
