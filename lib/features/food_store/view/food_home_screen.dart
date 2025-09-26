@@ -6,6 +6,7 @@ import 'package:ds_cart/features/food_store/provider/food_provider.dart';
 import 'package:ds_cart/features/food_store/view/food_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/navigation_animation.dart';
 import '../../../provider/user_provider.dart';
 import '../core/categories.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -175,8 +176,8 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (contetx) => FoodCartScreen()));
+                        NavigationAnimation.slidePageTransition(
+                            FoodCartScreen()));
                   },
                   icon: Icon(
                     Icons.shopping_cart_outlined,
