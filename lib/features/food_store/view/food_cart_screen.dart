@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ds_cart/core/widgets/custom_appbar.dart';
 import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';

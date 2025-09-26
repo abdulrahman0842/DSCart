@@ -37,15 +37,18 @@ class ExploreItemCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25),
               ),
               child: Column(spacing: 2, children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.22,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(25)),
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(foodItem.imageUrl))),
+                Hero(
+                  tag: foodItem.id,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.22,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(25)),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(foodItem.imageUrl))),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),

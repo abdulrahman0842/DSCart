@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/widgets/custom_elevated_icon_button.dart';
 import '../../../core/widgets/custom_outlined_icon_button.dart';
-import '../provider/food_provider.dart';
 
 class FoodDetailScreen extends StatefulWidget {
   const FoodDetailScreen({super.key, required this.food});
@@ -32,13 +31,15 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Food Image
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset(
-              widget.food.imageUrl,
-              width: double.infinity,
-              height: 250,
-              fit: BoxFit.cover,
+          Hero(tag:widget.food.id,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.asset(
+                widget.food.imageUrl,
+                width: double.infinity,
+                height: 250,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(height: 16),
