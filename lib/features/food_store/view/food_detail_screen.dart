@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ds_cart/features/food_store/model/food_model.dart';
 import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
 import 'package:ds_cart/features/food_store/view/food_order_detail_screen.dart';
@@ -36,10 +37,17 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             tag: widget.food.id,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(0),
-              child: Image.asset(
-                widget.food.imageUrl,
-                width: double.infinity,
-                height: 250,
+              child: CachedNetworkImage(
+                imageUrl: widget.food.imageUrl,
+                // width: double.infinity,
+                // height: 250,
+                maxHeightDiskCache: 300,
+                maxWidthDiskCache: 300,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
             ),

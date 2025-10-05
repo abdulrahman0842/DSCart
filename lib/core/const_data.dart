@@ -106,7 +106,7 @@ const allFoodSampleData = {
       "name": "Caffe Mocha",
       "category": "drinks",
       "price": 300,
-      "imageURL": "assets/images/coffee.jpg",
+      "imageURL": "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg",
       "description":
           "A rich, chocolate-flavored coffee drink made with espresso, steamed milk, and topped with whipped cream.",
       "ingredients": [
@@ -123,7 +123,7 @@ const allFoodSampleData = {
       "name": "Indian Cuisine",
       "category": "lunchDinner",
       "price": 500,
-      "imageURL": "assets/images/food.jpg",
+      "imageURL": "https://images.pexels.com/photos/958546/pexels-photo-958546.jpeg",
       "description":
           "A wholesome Indian meal featuring curries, rice, and bread with authentic spices and flavors.",
       "ingredients": [
@@ -141,7 +141,7 @@ const allFoodSampleData = {
       "name": "Latte",
       "category": "drinks",
       "price": 250,
-      "imageURL": "assets/images/coffee.jpg",
+      "imageURL": "https://images.pexels.com/photos/531639/pexels-photo-531639.jpeg",
       "description":
           "A smooth and creamy coffee drink made with fresh espresso and steamed milk.",
       "ingredients": ["Espresso", "Steamed milk", "Milk foam"],
@@ -152,7 +152,7 @@ const allFoodSampleData = {
       "name": "Paneer Tikka",
       "category": "snacks",
       "price": 400,
-      "imageURL": "assets/images/food.jpg",
+      "imageURL": "https://images.pexels.com/photos/3928854/pexels-photo-3928854.png",
       "description":
           "Grilled paneer cubes marinated in yogurt and spices, served with onions and bell peppers.",
       "ingredients": [
@@ -170,7 +170,7 @@ const allFoodSampleData = {
       "name": "Espresso",
       "category": "drinks",
       "price": 200,
-      "imageURL": "assets/images/coffee.jpg",
+      "imageURL": "https://images.pexels.com/photos/3704460/pexels-photo-3704460.jpeg",
       "description":
           "A concentrated shot of coffee with a strong and bold flavor.",
       "ingredients": ["Freshly ground coffee beans", "Hot water"],
@@ -181,7 +181,7 @@ const allFoodSampleData = {
       "name": "Veg Biryani",
       "category": "lunchDinner",
       "price": 350,
-      "imageURL": "assets/images/food.jpg",
+      "imageURL": "https://images.pexels.com/photos/4439740/pexels-photo-4439740.jpeg",
       "description":
           "Aromatic basmati rice cooked with fresh vegetables, herbs, and flavorful spices.",
       "ingredients": [
@@ -194,23 +194,13 @@ const allFoodSampleData = {
       ],
       "__v": 0
     },
-    {
-      "_id": "685aeb765c633b0bc6fa335a7",
-      "name": "Cappuccino",
-      "category": "drinks",
-      "price": 280,
-      "imageURL": "assets/images/coffee.jpg",
-      "description":
-          "A popular Italian coffee made with equal parts espresso, steamed milk, and milk foam.",
-      "ingredients": ["Espresso", "Steamed milk", "Milk foam", "Cocoa powder"],
-      "__v": 0
-    },
+    
     {
       "_id": "685aeb765c633b0bc6fa335a8",
       "name": "Pav Bhaji",
       "category": "snacks",
       "price": 180,
-      "imageURL": "assets/images/food.jpg",
+      "imageURL": "https://images.pexels.com/photos/5410400/pexels-photo-5410400.jpeg",
       "description":
           "A Mumbai street food favorite—spicy mashed vegetable curry served with butter-toasted bread rolls.",
       "ingredients": [
@@ -230,7 +220,7 @@ const allFoodSampleData = {
       "name": "Iced Americano",
       "category": "drinks",
       "price": 270,
-      "imageURL": "assets/images/coffee.jpg",
+      "imageURL": "https://images.pexels.com/photos/33617641/pexels-photo-33617641.jpeg",
       "description":
           "A refreshing cold coffee drink made by diluting espresso with chilled water and ice.",
       "ingredients": ["Espresso", "Cold water", "Ice cubes"],
@@ -241,7 +231,7 @@ const allFoodSampleData = {
       "name": "Masala Dosa",
       "category": "breakfast",
       "price": 220,
-      "imageURL": "assets/images/food.jpg",
+      "imageURL": "https://images.pexels.com/photos/20422138/pexels-photo-20422138.jpeg",
       "description":
           "A South Indian classic—crispy rice crepe filled with a spiced potato mixture, served with chutney and sambar.",
       "ingredients": [
@@ -257,22 +247,11 @@ const allFoodSampleData = {
       "__v": 0
     },
     {
-      "_id": "685aeb765c633b0bc6fa335b1",
-      "name": "Filter Coffee",
-      "category": "drinks",
-      "price": 150,
-      "imageURL": "assets/images/coffee.jpg",
-      "description":
-          "A traditional South Indian coffee made with freshly brewed coffee decoction and hot milk.",
-      "ingredients": ["Coffee decoction", "Hot milk", "Sugar"],
-      "__v": 0
-    },
-    {
       "_id": "685aeb765c633b0bc6fa335b2",
       "name": "Chole Bhature",
       "category": "lunchDinner",
       "price": 260,
-      "imageURL": "assets/images/food.jpg",
+      "imageURL": "https://images.pexels.com/photos/11818239/pexels-photo-11818239.jpeg",
       "description":
           "A popular North Indian dish—spiced chickpea curry served with fluffy deep-fried bread.",
       "ingredients": [

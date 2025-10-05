@@ -52,6 +52,8 @@ class MainChoiceCard extends StatelessWidget {
               fadeInDuration: Duration(milliseconds: 500),
               placeholderFadeInDuration: Duration(milliseconds: 100),
               alignment: Alignment.center,
+              placeholder: (context, url) =>
+                  const Center(child: CircularProgressIndicator()),
             ),
             Container(
               color: Colors.black38,

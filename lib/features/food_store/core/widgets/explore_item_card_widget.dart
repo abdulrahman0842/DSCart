@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ds_cart/features/food_store/model/food_model.dart';
 import 'package:ds_cart/features/food_store/view/food_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -37,17 +38,27 @@ class ExploreItemCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25),
               ),
               child: Column(spacing: 2, children: [
-                Hero(
-                  tag: foodItem.id,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.22,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(25)),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(foodItem.imageUrl))),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.22,
+                  width: MediaQuery.of(context).size.width,
+                  child: Hero(
+                    tag: foodItem.id,
+                    child: ClipRRect(
+                      clipBehavior: Clip.antiAlias,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(25)),
+                      child: CachedNetworkImage(
+                        imageUrl: foodItem.imageUrl,
+                        height: MediaQuery.of(context).size.height * 0.22,
+                        width: MediaQuery.of(context).size.width,
+                        // cacheManager: Cache,
+                        maxHeightDiskCache: 300,
+                        maxWidthDiskCache: 300,
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
                 Padding(

@@ -92,9 +92,18 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
               child: Text("Special For You",
                   style: Theme.of(context).textTheme.titleLarge),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: SpecialItemCard(),
+            Consumer<FoodProvider>(
+              builder: (context, provider, child) {
+                if (provider.foods.isNotEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: SpecialItemCard(
+                      foodItem: provider.foods.last,
+                    ),
+                  );
+                }
+                return Center(child: CircularProgressIndicator());
+              },
             ),
 
             // Explore Foods
@@ -116,6 +125,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
                 itemBuilder: (context, index) {
                   var food = foodItems[index];
                   return ExploreItemCardWidget(
+                    key: ValueKey(food.id),
                     foodItem: food,
                   );
                 },
