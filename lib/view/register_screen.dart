@@ -12,6 +12,7 @@ class RegisterScreen extends StatelessWidget {
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -44,6 +45,15 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05,
                   ),
+                  Consumer<AuthProvider>(
+                    builder: (context, provider, _) {
+                      return provider.errorMessage != null
+                          ? Text(
+                              style: TextStyle(color: Colors.red, fontSize: 16),
+                              provider.errorMessage ?? "Something Went Wrong")
+                          : Container();
+                    },
+                  ),
                   CustomTextField(
                     validator: (value) {
                       return FormValidators.requiredField(value);
@@ -52,15 +62,26 @@ class RegisterScreen extends StatelessWidget {
                     hintText: "Enter Name",
                   ),
                   CustomTextField(
-                      validator: (value) {
-                        return FormValidators.email(value);
-                      },
-                      controller: _emailController,
-                      hintText: "Enter Email"),
+                    validator: (value) {
+                      return FormValidators.email(value);
+                    },
+                    controller: _emailController,
+                    hintText: "Enter Email",
+                    textInputType: TextInputType.emailAddress,
+                  ),
+                  CustomTextField(
+                    validator: (value) {
+                      return FormValidators.phone(value);
+                    },
+                    controller: _phoneController,
+                    hintText: "Enter Phone Number",
+                    textInputType: TextInputType.phone,
+                  ),
                   CustomTextField(
                       validator: (value) {
                         return FormValidators.password(value);
                       },
+                      textInputType: TextInputType.visiblePassword,
                       controller: _passwordController,
                       hintText: "Create Password"),
                   CustomTextField(
@@ -68,6 +89,7 @@ class RegisterScreen extends StatelessWidget {
                         return FormValidators.requiredField(value);
                       },
                       controller: _addressController,
+                      textInputType: TextInputType.streetAddress,
                       hintText: "Enter your address"),
                   Consumer<AuthProvider>(builder: (context, provider, _) {
                     return provider.isLoading
@@ -86,7 +108,8 @@ class RegisterScreen extends StatelessWidget {
                                     _nameController.text,
                                     _emailController.text,
                                     _passwordController.text,
-                                    _addressController.text);
+                                    _addressController.text,
+                                    _phoneController.text);
                               }
                             },
                           );

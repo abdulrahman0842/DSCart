@@ -7,13 +7,14 @@ import '../core/api_constants.dart';
 
 class AuthService implements IAuthService {
   @override
-  Future<String?> register(
-      String name, String email, String password, String address) async {
+  Future<Map<String, dynamic>> register(String name, String email, String phone,
+      String password, String address) async {
     try {
       final response =
           await http.post(Uri.parse(ApiConstants.registerUrl), body: {
         "name": name,
         "email": email,
+        "phone": phone,
         "password": password,
         "addess": address
       }, headers: {
@@ -21,14 +22,31 @@ class AuthService implements IAuthService {
       });
 
       if (response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-        return data["token"];
+        final decodedJson = jsonDecode(response.body);
+        return decodedJson;
       } else {
-        return null;
+        throw Exception("Error: ${response.body}");
       }
     } catch (e) {
-      log(e.toString());
-      return null;
+      throw Exception("Failed to register: $e");
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> verifyOtp(String email, String otp) async {
+    try {
+      final response = await http.post(Uri.parse(ApiConstants.verifyOtpUrl),
+          body: {"email": email, "otp": otp},
+          headers: {"content-type": "application/json"});
+
+      if (response.statusCode == 201) {
+        final decodedJson = jsonDecode(response.body);
+        return decodedJson;
+      } else {
+        throw Exception("Error: ${response.body}");
+      }
+    } catch (e) {
+      throw Exception("Failed to Verify OTP: $e");
     }
   }
 
@@ -60,7 +78,7 @@ class AuthService implements IAuthService {
     return token != null && token.isNotEmpty;
   }
 
-  static Future<bool> logout()async{
+  static Future<bool> logout() async {
     return await UserStorage.clearPreferences();
   }
 }

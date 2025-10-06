@@ -18,10 +18,10 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    _animate();
+    _animateAndNavigate();
   }
 
-  void _animate() {
+  void _animateAndNavigate() {
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -36,14 +36,10 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _checkLoginAndNavigate() async {
-    final bool isLoggedIn = await AuthService.isLoggedIn();
-
     Future.delayed(Duration(seconds: 3), () {
       if (mounted) {
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (_) => isLoggedIn ? HomeScreen() : RegisterScreen()));
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
       }
     });
   }

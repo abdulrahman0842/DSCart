@@ -4,6 +4,7 @@ class ApiConstants {
   // Auth EndPoints
   static const String registerUrl = "$baseUrl/user/register";
   static const String loginrUrl = "$baseUrl/user/login";
+  static const String verifyOtpUrl = "$baseUrl/user/verify-otp";
 
   // Product EndPoints Food
   static const String getAllFoodItems = "$baseUrl/product";

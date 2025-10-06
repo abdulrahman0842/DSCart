@@ -1,8 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserStorage {
-  static Future<void> storeUserData(String name, String address) async {
+  static Future<void> storeUserData(String name,String email,String phone, String address,) async {
     final pref = await SharedPreferences.getInstance();
+    pref.setString("UserEmail",email);
+    pref.setString("UserPhone",phone);
     pref.setString("UserName", name);
     pref.setString("UserAddress", address);
   }

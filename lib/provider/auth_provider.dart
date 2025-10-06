@@ -5,6 +5,7 @@ import 'package:ds_cart/view/register_screen.dart';
 import 'package:flutter/material.dart';
 import '../view/home_screen.dart';
 import '../service/local_storage/user_storage.dart';
+import '../view/otp_screen.dart';
 
 class AuthProvider with ChangeNotifier {
   final IAuthService _authService;
@@ -13,33 +14,70 @@ class AuthProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  Map<String, dynamic>? _user;
+  Map<String, dynamic>? get user => _user;
+
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
   Future<void> register(BuildContext context, String name, String email,
-      String password, String address) async {
+      String phone, String password, String address) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      _user = null;
+      _errorMessage = null;
+
+      final response =
+          await _authService.register(name, email, password, address, phone);
+      if (response["status"] == "success") {
+        _user = response["data"];
+        Navigator.push(context, MaterialPageRoute(builder: (_) => OtpScreen()));
+      } else {
+        _errorMessage =
+            "${response['status'].toString().toUpperCase()}:${response['message']}";
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Error:$e")));
+    }
+  }
+
+  Future<void> verifyOtp(BuildContext context, String email, String otp) async {
     try {
       _isLoading = true;
       notifyListeners();
 
-      final token = await _authService.register(name, email, password, address);
-
-      _isLoading = false;
-      notifyListeners();
-
-      if (token != null) {
-        //Local Storage Methods
-        UserStorage.storeToken(token);
-        UserStorage.storeUserData(name, address);
-        log(token);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Failed to Register Try Again")));
+      final response = await _authService.verifyOtp(email, otp);
+      if (response["status"] == "success") {
+        if (response["data"] != null ||
+            response["data"].toString().isNotEmpty) {
+          _isLoading = false;
+          notifyListeners();
+          final token = response["data"];
+          //Local Storage Methods
+          UserStorage.storeToken(token);
+          UserStorage.storeUserData(_user?["name"] ?? "", email,
+              _user?["phone"] ?? "", _user?["address"] ?? "");
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => HomeScreen()));
+        } else {
+          _isLoading = false;
+          notifyListeners();
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Failed to Register Try Again")));
+        }
       }
     } catch (e) {
       _isLoading = false;
       notifyListeners();
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Something went wrong!")));
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
