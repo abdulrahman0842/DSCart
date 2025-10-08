@@ -23,27 +23,25 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _checkAddress();
-     
+      // _checkAddress();
     });
   }
 
-  Future<void> _checkAddress() async {
-    final userProvider = context.read<UserProvider>();
-    await userProvider.getAddress();
-
-    if (context.mounted) {
-      if (userProvider.address == null || userProvider.address!.isEmpty) {
-        String? newAddress = await AddressBottomSheet.show(context);
-        if (newAddress == null || newAddress.isEmpty) {
-          Navigator.pop(context);
-          return;
-        } else {
-          await userProvider.saveAddress(newAddress);
-        }
-      }
-    }
-  }
+  // Future<void> _checkAddress() async {
+  //   final userProvider = context.read<UserProvider>();
+  //   // await userProvider.getAddress();
+  //   if (context.mounted) {
+  //     if (userProvider.address == null || userProvider.address!.isEmpty) {
+  //       String? newAddress = await AddressBottomSheet.show(context);
+  //       if (newAddress == null || newAddress.isEmpty) {
+  //         Navigator.pop(context);
+  //         return;
+  //       } else {
+  //         await userProvider.saveAddress(newAddress);
+  //       }
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +143,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
               child: const Text("Place Order"),
               onPressed: () async {
                 final orderProvider = context.read<OrderProvider>();
-                await orderProvider.placeOrder(cartItems, totalAmount);
+                // await orderProvider.placeOrder(cartItems, totalAmount);
                 if (orderProvider.isOrderPlaced) {
                   FlushBar.success("Order Placed Successfully!", context);
                   await Future.delayed(Duration(seconds: 2), () {
@@ -178,7 +176,8 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
           const SizedBox(width: 8),
           Expanded(
               child: Text(
-            userProvider.address ?? "Loading...",
+            // userProvider.address ??
+            "Loading...",
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontSize: 16),
@@ -189,7 +188,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
                   context,
                 );
                 if (newAddress != null && newAddress.isNotEmpty) {
-                  await userProvider.saveAddress(newAddress);
+                  // await userProvider.saveAddress(newAddress);
                   return;
                 }
               },

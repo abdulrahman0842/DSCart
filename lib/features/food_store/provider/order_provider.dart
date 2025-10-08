@@ -1,6 +1,8 @@
 import 'package:ds_cart/features/food_store/interface/i_food_order_service.dart';
 import 'package:ds_cart/service/local_storage/user_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../provider/user_provider.dart';
 import '../model/food_model.dart';
 
 class OrderProvider with ChangeNotifier {
@@ -14,15 +16,16 @@ class OrderProvider with ChangeNotifier {
   String _errorMessage = "";
   String get errorMessage => _errorMessage;
 
-  Future<void> placeOrder(List<Food> allOrder, double totalAmount) async {
+  Future<void> placeOrder(
+      List<Food> allOrder, double totalAmount, BuildContext context) async {
     _isLoading = true;
     _isOrderPlaced = false;
     notifyListeners();
     try {
-      final address = await UserStorage.getUserAddress();
+      final address =  context.read<UserProvider>().user?.address ?? "";
       List<String> itemsId = allOrder.map((item) => item.id).toList();
       await _orderService.placeOrder(
-          itemsId, totalAmount, 30, address ?? "UnAvailable");
+          itemsId, totalAmount, 30, address);
       _isLoading = false;
       _isOrderPlaced = true;
       notifyListeners();
@@ -33,5 +36,4 @@ class OrderProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-
 }

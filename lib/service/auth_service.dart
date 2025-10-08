@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:ds_cart/core/interface/i_auth_service.dart';
 import 'package:ds_cart/service/local_storage/user_storage.dart';
 import 'package:http/http.dart' as http;
@@ -51,7 +50,7 @@ class AuthService implements IAuthService {
   }
 
   @override
-  Future<String?> login(String email, String password) async {
+  Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       final response =
           await http.post(Uri.parse(ApiConstants.loginrUrl), body: {
@@ -62,14 +61,13 @@ class AuthService implements IAuthService {
       });
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        return data["token"];
+        final decodedJson = jsonDecode(response.body);
+        return decodedJson;
       } else {
-        return null;
+        throw Exception("Error: ${response.body}");
       }
     } catch (e) {
-      log(e.toString());
-      return null;
+      throw Exception("Failed to Login: $e");
     }
   }
 

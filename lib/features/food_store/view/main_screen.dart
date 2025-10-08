@@ -2,7 +2,9 @@ import 'package:ds_cart/features/food_store/view/food_home_screen.dart';
 import 'package:ds_cart/view/user_account_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'order_screen.dart';
+import '../../../provider/auth_provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -14,14 +16,21 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentPageIndex = 0;
 
-  final List<Widget> screens = [
-    FoodHomeScreen(),
-    OrderScreen(),
-    UserAccountScreen()
-  ];
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthProvider>().chechAuthStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> screens = [
+      FoodHomeScreen(),
+      OrderScreen(),
+      context.watch<AuthProvider>().isLoggedIn
+          ? UserAccountScreen()
+          : Scaffold(body: Center(child: Text("Login First")))
+    ];
     return Scaffold(
       body: IndexedStack(
         index: _currentPageIndex,

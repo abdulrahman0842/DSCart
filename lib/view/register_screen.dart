@@ -5,17 +5,34 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../core/form_validators.dart';
+import 'home_screen.dart';
 import 'login_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
+  final _mobileController = TextEditingController();
   final _passwordController = TextEditingController();
   final _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _mobileController.dispose();
+    _passwordController.dispose();
+    _addressController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,10 +88,10 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   CustomTextField(
                     validator: (value) {
-                      return FormValidators.phone(value);
+                      return FormValidators.mobile(value);
                     },
-                    controller: _phoneController,
-                    hintText: "Enter Phone Number",
+                    controller: _mobileController,
+                    hintText: "Enter mobile Number",
                     textInputType: TextInputType.phone,
                   ),
                   CustomTextField(
@@ -96,7 +113,7 @@ class RegisterScreen extends StatelessWidget {
                         ? Center(child: CircularProgressIndicator())
                         : CustomElevatedButton(
                             child: Text(
-                              "Sign up",
+                              "Send OTP",
                               style: TextStyle(
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.05),
@@ -104,12 +121,13 @@ class RegisterScreen extends StatelessWidget {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 provider.register(
-                                    context,
-                                    _nameController.text,
-                                    _emailController.text,
-                                    _passwordController.text,
-                                    _addressController.text,
-                                    _phoneController.text);
+                                  context,
+                                  _nameController.text,
+                                  _emailController.text,
+                                  _mobileController.text,
+                                  _passwordController.text,
+                                  _addressController.text,
+                                );
                               }
                             },
                           );
@@ -122,7 +140,13 @@ class RegisterScreen extends StatelessWidget {
                               MaterialPageRoute(builder: (_) => LoginScreen()));
                         },
                         child: Text("Already Have an Account?\t Login Here")),
-                  )
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => HomeScreen()));
+                      },
+                      icon: Icon(Icons.home))
                 ],
               ),
             ),

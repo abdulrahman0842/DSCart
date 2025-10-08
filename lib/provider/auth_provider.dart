@@ -1,8 +1,9 @@
-import 'dart:developer';
 import 'package:ds_cart/core/interface/i_auth_service.dart';
 import 'package:ds_cart/service/auth_service.dart';
+import 'package:ds_cart/utils/flush_bar.dart';
 import 'package:ds_cart/view/register_screen.dart';
 import 'package:flutter/material.dart';
+import '../model/user.dart';
 import '../view/home_screen.dart';
 import '../service/local_storage/user_storage.dart';
 import '../view/otp_screen.dart';
@@ -14,14 +15,17 @@ class AuthProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Map<String, dynamic>? _user;
-  Map<String, dynamic>? get user => _user;
-
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  User? _user;
+  User? get user => _user;
+
+  bool _isLoggedIn = false;
+  bool get isLoggedIn => _isLoggedIn;
+
   Future<void> register(BuildContext context, String name, String email,
-      String phone, String password, String address) async {
+      String mobile, String password, String address) async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -29,15 +33,19 @@ class AuthProvider with ChangeNotifier {
       _errorMessage = null;
 
       final response =
-          await _authService.register(name, email, password, address, phone);
+          await _authService.register(name, email, mobile, password, address);
       if (response["status"] == "success") {
-        _user = response["data"];
-        Navigator.push(context, MaterialPageRoute(builder: (_) => OtpScreen()));
+        _user =
+            User(name: name, email: email, mobile: mobile, address: address);
+        if (context.mounted) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => OtpScreen()));
+          FlushBar.success("OTP Send Successfully", context);
+        }
       } else {
         _errorMessage =
             "${response['status'].toString().toUpperCase()}:${response['message']}";
       }
-
       _isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -58,12 +66,12 @@ class AuthProvider with ChangeNotifier {
         if (response["data"] != null ||
             response["data"].toString().isNotEmpty) {
           _isLoading = false;
+          _isLoggedIn = true;
           notifyListeners();
           final token = response["data"];
           //Local Storage Methods
           UserStorage.storeToken(token);
-          UserStorage.storeUserData(_user?["name"] ?? "", email,
-              _user?["phone"] ?? "", _user?["address"] ?? "");
+          UserStorage.storeUserData(_user!);
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (_) => HomeScreen()));
         } else {
@@ -72,6 +80,11 @@ class AuthProvider with ChangeNotifier {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Failed to Register Try Again")));
         }
+      } else {
+        _isLoading = false;
+        notifyListeners();
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Failed to Verify OTP Try Again")));
       }
     } catch (e) {
       _isLoading = false;
@@ -87,26 +100,43 @@ class AuthProvider with ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      final token = await _authService.login(email, password);
+      final response = await _authService.login(email, password);
 
       _isLoading = false;
       notifyListeners();
 
-      if (token != null) {
-        //Local Storage Methods
-        UserStorage.storeToken(token);
-        log(token);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Failed to Login Try Again")));
+      if (response["status"] != "success") {
+        _isLoading = false;
+        notifyListeners();
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Failed: ${response["message"]}")));
+        return;
       }
+
+      if (response["data"] == null ||
+          (response["data"]["token"] == null ||
+              response["data"]["token"].isEmpty)) {
+        _isLoading = false;
+        notifyListeners();
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Something went wrong. Try Again")));
+        return;
+      }
+
+      _isLoading = false;
+      notifyListeners();
+
+      final token = response["data"]["token"];
+      _user = User.fromJson(response["data"]);
+      UserStorage.storeToken(token);
+      UserStorage.storeUserData(_user!);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => HomeScreen()));
     } catch (e) {
       _isLoading = false;
       notifyListeners();
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Something went wrong!")));
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -117,6 +147,8 @@ class AuthProvider with ChangeNotifier {
     bool status = await AuthService.logout();
     if (status) {
       _isLoading = false;
+      _isLoggedIn = false;
+      _user = null;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Logout Successful")));
       Navigator.pushAndRemoveUntil(
@@ -124,5 +156,11 @@ class AuthProvider with ChangeNotifier {
           MaterialPageRoute(builder: (context) => RegisterScreen()),
           (Route<dynamic> route) => false);
     }
+  }
+
+  Future<bool> chechAuthStatus() async {
+    _isLoggedIn = await AuthService.isLoggedIn();
+    notifyListeners();
+    return _isLoggedIn;
   }
 }

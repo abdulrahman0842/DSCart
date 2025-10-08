@@ -27,11 +27,11 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<UserProvider>().getAddress();
       final provider = context.read<FoodProvider>();
       if (provider.foods.isEmpty) {
         provider.getAllFoods();
       }
+      context.read<UserProvider>().loadUserData();
     });
   }
 
@@ -158,14 +158,14 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
                   onTap: () async {
                     final newAddress = await AddressBottomSheet.show(context);
                     if (newAddress != null && newAddress.isNotEmpty) {
-                      userProvider.saveAddress(newAddress);
+                      userProvider.updateAddress(newAddress);
                       return;
                     }
                   },
                   child: Text(
-                    userProvider.address != null
-                        ? "📍 ${userProvider.address}"
-                        : "Tap to Add Address",
+                    userProvider.user != null
+                        ? "📍 ${userProvider.user!.address}"
+                        : "Login To Continue",
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
@@ -184,10 +184,11 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
                   )),
               IconButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        NavigationAnimation.slidePageTransition(
-                            FoodCartScreen()));
+                  Navigator.push(
+                            context,
+                            NavigationAnimation.slidePageTransition(
+                                FoodCartScreen()));
+                       
                   },
                   icon: Icon(
                     Icons.shopping_cart_outlined,

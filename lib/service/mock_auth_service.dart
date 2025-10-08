@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ds_cart/core/interface/i_auth_service.dart';
 
 class MockAuthService implements IAuthService {
@@ -45,12 +47,28 @@ class MockAuthService implements IAuthService {
   }
 
   @override
-  Future<String?> login(String email, String password) async {
+  Future<Map<String, dynamic>> login(String email, String password) async {
     await Future.delayed(Duration(seconds: 3));
-    if (email == "admin@gmail.com" && password == "123456") {
-      return "SampleLoginToken";
-    } else {
-      return null;
+    log(email + password);
+    try {
+      int statusCode = 200;
+      if (statusCode == 200) {
+        return {
+          "status": "success",
+            "data": {
+              "email": "malfoy@hogwardz.com",
+              "name": "malfoy",
+              "mobile": "12345",
+              "address": "Hogwarts",
+              "token": "SAMPLETOKEN"
+            },
+          "message": "User Loggedin successfully"
+        };
+      } else {
+        throw Exception("Status Not 200");
+      }
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 }

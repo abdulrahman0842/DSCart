@@ -28,12 +28,12 @@ class FormValidators {
     return null;
   }
 
-  static String? phone(String? value, {int minLength = 10}) {
+  static String? mobile(String? value, {int minLength = 10}) {
     if (value == null || value.trim().isEmpty) {
-      return "Phone is required";
+      return "Mobile Number is required";
     }
     if (!RegExp(r'^[6-9]\d{9}$').hasMatch(value)) {
-      return "Invalid Phone Number";
-    }
+      return "Invalid Mobile Number";
+    }return null;
   }
 }

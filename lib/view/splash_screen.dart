@@ -1,6 +1,4 @@
-import 'package:ds_cart/service/auth_service.dart';
 import 'package:ds_cart/view/home_screen.dart';
-import 'package:ds_cart/view/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

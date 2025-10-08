@@ -38,7 +38,7 @@ class OtpScreen extends StatelessWidget {
                         : Text("Verify OTP"),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        provider.verifyOtp(context, provider.user?["email"],
+                        provider.verifyOtp(context, provider.user?.email??"",
                             _otpController.text);
                       }
                     });
