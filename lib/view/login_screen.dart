@@ -4,6 +4,7 @@ import 'package:ds_cart/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/form_validators.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -87,7 +88,7 @@ class LoginForm extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(context,MaterialPageRoute(builder: (_)=>RegisterScreen()));
                 },
                 child: Text("Don't Have an Account?\t Register Here")),
           )

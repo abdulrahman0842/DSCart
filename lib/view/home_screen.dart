@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../features/food_store/view/main_screen.dart';
 import '../provider/auth_provider.dart';
+import '../service/auth_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white),
                     ),
                     TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           context.read<AuthProvider>().logout(context);
                         },
                         child: Text("Logout",

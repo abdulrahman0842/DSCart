@@ -1,3 +1,4 @@
+import 'package:ds_cart/core/widgets/login_alert_dialog.dart';
 import 'package:ds_cart/features/food_store/view/food_home_screen.dart';
 import 'package:ds_cart/view/user_account_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     final List<Widget> screens = [
       FoodHomeScreen(),
       OrderScreen(),
-      context.watch<AuthProvider>().isLoggedIn
-          ? UserAccountScreen()
-          : Scaffold(body: Center(child: Text("Login First")))
+      UserAccountScreen()
     ];
     return Scaffold(
       body: IndexedStack(
@@ -47,7 +46,14 @@ class _MainScreenState extends State<MainScreen> {
           animationDuration: Duration(milliseconds: 300),
           onDestinationSelected: (index) {
             setState(() {
-              _currentPageIndex = index;
+              if (index != 2) {
+                _currentPageIndex = index;
+              } else if (index == 2 &&
+                  context.read<AuthProvider>().isLoggedIn) {
+                _currentPageIndex = index;
+              } else {
+                showLoginAlertDialog(context);
+              }
             });
           },
           selectedIndex: _currentPageIndex,

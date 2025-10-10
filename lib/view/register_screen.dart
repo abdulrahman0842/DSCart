@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../core/form_validators.dart';
 import 'home_screen.dart';
-import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
@@ -136,8 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     width: MediaQuery.of(context).size.width,
                     child: TextButton(
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => LoginScreen()));
+                          Navigator.pop(context);
                         },
                         child: Text("Already Have an Account?\t Login Here")),
                   ),

@@ -1,4 +1,5 @@
 import 'package:ds_cart/core/widgets/address_bottom_sheet.dart';
+import 'package:ds_cart/core/widgets/login_alert_dialog.dart';
 import 'package:ds_cart/features/food_store/core/widgets/category_card_widget.dart';
 import 'package:ds_cart/features/food_store/core/widgets/explore_item_card_widget.dart';
 import 'package:ds_cart/features/food_store/core/widgets/special_item_card.dart';
@@ -156,6 +157,10 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
                 ),
                 GestureDetector(
                   onTap: () async {
+                    if (userProvider.user == null) {
+                      showLoginAlertDialog(context);
+                      return;
+                    }
                     final newAddress = await AddressBottomSheet.show(context);
                     if (newAddress != null && newAddress.isNotEmpty) {
                       userProvider.updateAddress(newAddress);
@@ -184,11 +189,13 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
                   )),
               IconButton(
                   onPressed: () {
-                  Navigator.push(
-                            context,
-                            NavigationAnimation.slidePageTransition(
-                                FoodCartScreen()));
-                       
+                    // context.read<AuthProvider>().isLoggedIn
+                    //     ?
+                    Navigator.push(
+                        context,
+                        NavigationAnimation.slidePageTransition(
+                            FoodCartScreen()));
+                    // : showLoginAlertDialog(context);
                   },
                   icon: Icon(
                     Icons.shopping_cart_outlined,

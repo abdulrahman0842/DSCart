@@ -20,30 +20,6 @@ class FoodOrderDetailScreen extends StatefulWidget {
 
 class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // _checkAddress();
-    });
-  }
-
-  // Future<void> _checkAddress() async {
-  //   final userProvider = context.read<UserProvider>();
-  //   // await userProvider.getAddress();
-  //   if (context.mounted) {
-  //     if (userProvider.address == null || userProvider.address!.isEmpty) {
-  //       String? newAddress = await AddressBottomSheet.show(context);
-  //       if (newAddress == null || newAddress.isEmpty) {
-  //         Navigator.pop(context);
-  //         return;
-  //       } else {
-  //         await userProvider.saveAddress(newAddress);
-  //       }
-  //     }
-  //   }
-  // }
-
-  @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     List<Food> cartItems = cartProvider.cartItems;
@@ -176,8 +152,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
           const SizedBox(width: 8),
           Expanded(
               child: Text(
-            // userProvider.address ??
-            "Loading...",
+            userProvider.user?.address ?? "Loading...",
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontSize: 16),
@@ -188,7 +163,7 @@ class _FoodOrderDetailScreenState extends State<FoodOrderDetailScreen> {
                   context,
                 );
                 if (newAddress != null && newAddress.isNotEmpty) {
-                  // await userProvider.saveAddress(newAddress);
+                  await userProvider.updateAddress(newAddress);
                   return;
                 }
               },

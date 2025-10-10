@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/widgets/custom_elevated_icon_button.dart';
 import '../../../core/widgets/custom_outlined_icon_button.dart';
+import '../../../core/widgets/login_alert_dialog.dart';
+import '../../../provider/auth_provider.dart';
 
 class FoodDetailScreen extends StatefulWidget {
   const FoodDetailScreen({super.key, required this.food});
@@ -152,6 +154,12 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                   label: "Order Now",
                   icon: Icon(Icons.shopping_cart_checkout),
                   onPressed: () async {
+                    final isLoggedIn = context.read<AuthProvider>().isLoggedIn;
+                    if (!isLoggedIn) {
+                      showLoginAlertDialog(context);
+                      return;
+                    }
+
                     if (provider.isInCart(widget.food)) {
                       Navigator.push(
                           context,

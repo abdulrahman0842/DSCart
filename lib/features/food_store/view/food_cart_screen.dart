@@ -2,8 +2,7 @@ import 'package:ds_cart/core/widgets/custom_appbar.dart';
 import 'package:ds_cart/features/food_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../core/navigation_animation.dart';
+import '../../../core/protected_route_helper.dart';
 import '../../../core/widgets/custom_elevated_icon_button.dart';
 import 'food_order_detail_screen.dart';
 
@@ -56,10 +55,7 @@ class _FoodCartScreenState extends State<FoodCartScreen> {
                               "No items in Cart, add items before Ordering")));
                       return;
                     }
-                    Navigator.push(
-                        context,
-                        NavigationAnimation.slidePageTransition(
-                            FoodOrderDetailScreen()));
+                    protectedRouteHelper(context, FoodOrderDetailScreen());
                   },
                 ),
               ],

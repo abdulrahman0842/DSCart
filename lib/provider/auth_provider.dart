@@ -1,11 +1,11 @@
 import 'package:ds_cart/core/interface/i_auth_service.dart';
 import 'package:ds_cart/service/auth_service.dart';
 import 'package:ds_cart/utils/flush_bar.dart';
-import 'package:ds_cart/view/register_screen.dart';
 import 'package:flutter/material.dart';
 import '../model/user.dart';
 import '../view/home_screen.dart';
 import '../service/local_storage/user_storage.dart';
+import '../view/login_screen.dart';
 import '../view/otp_screen.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -153,7 +153,7 @@ class AuthProvider with ChangeNotifier {
           .showSnackBar(SnackBar(content: Text("Logout Successful")));
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => RegisterScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
           (Route<dynamic> route) => false);
     }
   }
