@@ -30,7 +30,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = context.read<FoodProvider>();
       if (provider.foods.isEmpty) {
-        provider.getAllFoods();
+        provider.getProducts();
       }
       context.read<UserProvider>().loadUserData();
     });
@@ -49,6 +49,7 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
             // AppBar
             _appBar(context),
 
+            // Carousel Banner
             CarouselSlider(
               options: CarouselOptions(
                   autoPlay: true,
@@ -59,8 +60,6 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
                 Image.asset("assets/images/food_home_banner.jpg"),
               ],
             ),
-            // Banner
-            // Image.asset("assets/images/food_home_banner.jpg"),
 
             // Categories List
             Padding(
@@ -116,6 +115,12 @@ class _FoodHomeScreenState extends State<FoodHomeScreen>
             Consumer<FoodProvider>(builder: (context, provider, _) {
               if (provider.isLoading) {
                 return Center(child: CircularProgressIndicator());
+              }
+              if (provider.message != null) {
+                return Center(
+                  child: Text("Error: ${provider.message}",
+                      style: TextStyle(color: Colors.red)),
+                );
               }
               var foodItems = provider.foods;
               return ListView.builder(

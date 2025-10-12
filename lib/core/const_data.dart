@@ -99,8 +99,7 @@
 //   ]
 // };
 
-const allFoodSampleData = {
-  "products": [
+const allFoodSampleData =  [
     {
       "_id": "685aeb765c633b0bc6fa335a1",
       "name": "Caffe Mocha",
@@ -265,5 +264,5 @@ const allFoodSampleData = {
       ],
       "__v": 0
     }
-  ]
-};
+  ];
+

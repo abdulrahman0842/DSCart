@@ -7,19 +7,14 @@ class FoodModel {
 
   FoodModel(this.foods);
 
-  FoodModel.fromJson(Map<String, dynamic> json) {
-    if (json["products"] != null) {
-      foods = <Food>[];
-      json["products"].forEach((obj) {
-        foods!.add(Food.fromJson(obj));
-      });
-    }
+  factory FoodModel.fromJson(List<Map<String, dynamic>> json) {
+    List<Food> foods = json.map((item) => Food.fromJson(item)).toList();
+    return FoodModel(foods);
   }
 }
 
-
 @HiveType(typeId: 0)
-class Food extends HiveObject{
+class Food extends HiveObject {
   @HiveField(0)
   String id;
   @HiveField(1)

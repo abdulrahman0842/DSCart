@@ -7,39 +7,33 @@ import '../../../core/api_constants.dart';
 
 class FoodProductService implements IFoodProductService {
   @override
-  Future<List<Food>> getAllFoodItems() async {
-    log("getAllFoodItems() Called.");
+  Future<Map<String, dynamic>> getProducts() async {
+    final body = {"search": "food", "page": 1, "limit": 25};
+
     try {
-      final response = await http.get(Uri.parse(ApiConstants.getAllFoodItems));
-      if (response.statusCode == 200) {
-        log("getAllFoodItems() response: ${response.body}");
-        final data = jsonDecode(response.body);
-        final FoodModel foodModel = FoodModel.fromJson(data);
-        return foodModel.foods ?? [];
-      }
-      return [];
+      final response = await http.post(Uri.parse(ApiConstants.getProducts),
+          body: jsonEncode(body),
+          headers: {"Content-Type": "application/json"});
+
+      final decodedJson = jsonDecode(response.body);
+      return decodedJson;
     } catch (e) {
-      log('Exception at getAllFoodItems() : ${e.toString()}');
-      return [];
+      throw Exception("Failed to Load Data! $e");
     }
   }
 
   @override
-  Future<List<Food>> getFoodItemsByCategory(String category) async {
-    log("getFoodItemsByCategory() Called.");
+  Future<Map<String, dynamic>> getProductByCategory(String category) async {
+    final body = {"search": category, "page": 1, "limit": 25};
+
     try {
-      final response = await http
-          .get(Uri.parse("${ApiConstants.getFoodItemsByCategory}/$category"));
-      if (response.statusCode == 200) {
-        log("getFoodItemsByCategory() response: ${response.body}");
-        final data = jsonDecode(response.body);
-        final FoodModel foodModel = FoodModel.fromJson(data);
-        return foodModel.foods ?? [];
-      }
-      return [];
+      final response = await http.post(Uri.parse(ApiConstants.getProducts),
+          body: jsonEncode(body),
+          headers: {"Content-Type": "application/json"});
+      final decodedJson = jsonDecode(response.body);
+      return decodedJson;
     } catch (e) {
-      log('Exception at getFoodItemsByCategory() : ${e.toString()}');
-      return [];
+      throw Exception("Failed: $e");
     }
   }
 

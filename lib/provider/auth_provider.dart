@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ds_cart/core/interface/i_auth_service.dart';
 import 'package:ds_cart/service/auth_service.dart';
 import 'package:ds_cart/utils/flush_bar.dart';
@@ -62,24 +64,17 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
 
       final response = await _authService.verifyOtp(email, otp);
+      log(response.toString());
       if (response["status"] == "success") {
-        if (response["data"] != null ||
-            response["data"].toString().isNotEmpty) {
-          _isLoading = false;
-          _isLoggedIn = true;
-          notifyListeners();
-          final token = response["data"];
-          //Local Storage Methods
-          UserStorage.storeToken(token);
-          UserStorage.storeUserData(_user!);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => HomeScreen()));
-        } else {
-          _isLoading = false;
-          notifyListeners();
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Failed to Register Try Again")));
-        }
+        _isLoading = false;
+        _isLoggedIn = true;
+        notifyListeners();
+        final token = response["data"];
+        //Local Storage Methods
+        UserStorage.storeToken(token);
+        UserStorage.storeUserData(_user!);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
       } else {
         _isLoading = false;
         notifyListeners();
@@ -101,7 +96,7 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
 
       final response = await _authService.login(email, password);
-
+      log("provider: $response");
       _isLoading = false;
       notifyListeners();
 
@@ -113,21 +108,11 @@ class AuthProvider with ChangeNotifier {
         return;
       }
 
-      if (response["data"] == null ||
-          (response["data"]["token"] == null ||
-              response["data"]["token"].isEmpty)) {
-        _isLoading = false;
-        notifyListeners();
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Something went wrong. Try Again")));
-        return;
-      }
-
       _isLoading = false;
       notifyListeners();
 
       final token = response["data"]["token"];
-      _user = User.fromJson(response["data"]);
+      _user = User.fromJson(response["data"]["user"]);
       UserStorage.storeToken(token);
       UserStorage.storeUserData(_user!);
       Navigator.pushReplacement(
@@ -149,8 +134,8 @@ class AuthProvider with ChangeNotifier {
       _isLoading = false;
       _isLoggedIn = false;
       _user = null;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Logout Successful")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: Duration(seconds: 15), content: Text("Logout Successful")));
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),

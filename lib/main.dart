@@ -32,7 +32,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
         create: (_) =>
-            AuthProvider(isMock ? MockAuthService() : AuthService())),
+            AuthProvider(AuthService())),
     ChangeNotifierProvider(
         create: (_) => FoodProvider(MockFoodProductService())),
     ChangeNotifierProvider(

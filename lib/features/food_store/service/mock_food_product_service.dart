@@ -6,24 +6,23 @@ import 'dart:developer';
 
 class MockFoodProductService implements IFoodProductService {
   @override
-  Future<List<Food>> getAllFoodItems() async {
-    await Future.delayed(Duration(seconds: 3));
-    log("getAllFoodItems() Called.");
-    final FoodModel foodModel = FoodModel.fromJson(allFoodSampleData);
-
-    return foodModel.foods ?? [];
+  Future<Map<String, dynamic>> getProducts() async {
+    await Future.delayed(Duration(seconds: 2));
+    return {
+      "status": "success",
+      "data": allFoodSampleData,
+      "message": "Products found"
+    };
   }
 
   @override
-  Future<List<Food>> getFoodItemsByCategory(String category) async {
-    await Future.delayed(Duration(seconds: 3));
-    final FoodModel foodList = FoodModel.fromJson(allFoodSampleData);
-    List<Food> foodItems = foodList.foods != null
-        ? foodList.foods!.where((item) {
-            return item.category.toLowerCase() == category.toLowerCase();
-          }).toList()
-        : [];
-    return foodItems;
+  Future<Map<String, dynamic>> getProductByCategory(String category) async {
+    await Future.delayed(Duration(seconds: 2));
+    return {
+      "status": "success",
+      "data": allFoodSampleData,
+      "message": "Products found"
+    };
   }
 
   @override
